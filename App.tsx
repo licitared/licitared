@@ -7,7 +7,7 @@ import {
   BarChart3, Globe, Users, ChevronDown, FileCheck, FileText, Gavel, HelpCircle, AlertOctagon, 
   ClipboardList, Banknote, BookOpen, SearchCode, Calculator, FileSignature, Building2, Users2, 
   ListOrdered, ShieldAlert, LifeBuoy, BookmarkCheck, MoreHorizontal, FileSearch, Target, Briefcase,
-  History, Building
+  History, Building, MessageSquare
 } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import SearchBids from './components/SearchBids';
@@ -60,6 +60,7 @@ const Sidebar = () => {
   const registerSubItems = [
     { path: '/register/edital-referencia', icon: BookOpen, label: 'Edital e Referência' },
     { path: '/register/inteligencia-viabilidade', icon: SearchCode, label: 'Inteligência e Viabilidade' },
+    { path: '/register/esclarecimentos', icon: MessageSquare, label: 'Esclarecimentos' },
     { path: '/register/orcamentacao-parceiros', icon: Building2, label: 'Orçamentação e Parceiros' },
     { path: '/register/proposta-comercial', icon: Calculator, label: 'Propostas e Habilitação Técnica' },
     { path: '/register/habilitacao-declaracoes', icon: ShieldCheck, label: 'Habilitação Geral' },

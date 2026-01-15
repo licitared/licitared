@@ -14,7 +14,8 @@ import {
   BarChart3, AlertTriangle, Fingerprint, PieChart, Activity, AlertCircle,
   Scale, FileWarning, ExternalLink, UserCheck, HardDrive, Info, HelpCircle,
   Users2, Eye, MessageSquare, PackageSearch, FileLock2, Timer, BellRing,
-  Save, Layers, UserPlus, ShieldAlert, FileStack, BadgeCheck, History
+  Save, Layers, UserPlus, ShieldAlert, FileStack, BadgeCheck, History,
+  FileQuestion, HelpCircle as HelpIcon, UserCog
 } from 'lucide-react';
 
 type DocStatus = 'VÁLIDA' | 'DRAFT' | 'ANTIGA' | 'INVÁLIDA' | 'CANCELADA';
@@ -159,6 +160,12 @@ const RegisterAssets: React.FC = () => {
       icon: isGlobalGo ? <CheckCircle2 size={28} className="text-emerald-400" /> : <XCircle size={28} className="text-rose-400" />,
       color: 'bg-slate-900'
     },
+    'esclarecimentos': { 
+      title: 'Esclarecimentos', 
+      subtitle: 'Gestão de Dúvidas e Questionamentos',
+      icon: <MessageSquare size={28} />,
+      color: 'bg-cyan-600'
+    },
     'orcamentacao-parceiros': { 
       title: 'Orçamentação e Parceiros', 
       subtitle: 'Gestão de Custos e Alianças',
@@ -240,12 +247,13 @@ const RegisterAssets: React.FC = () => {
     }
   }, [type]);
 
-  const toggleGroup = (groupId: string, section: 'viability' | 'edital') => {
+  const toggleGroup = (groupId: string, section: 'viability' | 'edital' | 'clarification') => {
     if (section === 'viability') {
       setDocGroups(prev => prev.map(g => g.id === groupId ? { ...g, isExpanded: !g.isExpanded } : g));
-    } else {
+    } else if (section === 'edital') {
       setEditalFileGroups(prev => prev.map(g => g.id === groupId ? { ...g, isExpanded: !g.isExpanded } : g));
     }
+    // Implement other toggles if needed
   };
 
   const handleUploadClick = () => setIsUploading(true);
@@ -731,6 +739,155 @@ const RegisterAssets: React.FC = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            </div>
+          )}
+
+          {/* ABA: Esclarecimentos (ATUALIZADA) */}
+          {type === 'esclarecimentos' && (
+            <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
+               {/* Bloco de Cadastro de Esclarecimento */}
+               <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-10 space-y-10">
+                  <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
+                    <div className="p-2.5 bg-cyan-600 text-white rounded-xl shadow-lg">
+                      <MessageSquare size={20} />
+                    </div>
+                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Novo Esclarecimento</h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
+                    {/* Data Esclarecimento */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Calendar size={14} className="text-cyan-500" /> Data Esclarecimento*
+                      </label>
+                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20" />
+                    </div>
+
+                    {/* Tipo */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <FileQuestion size={14} className="text-cyan-500" /> Tipo*
+                      </label>
+                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20 appearance-none">
+                        <option>Técnico</option>
+                        <option>Comercial</option>
+                        <option>Jurídico</option>
+                        <option>Processo</option>
+                        <option>Outro</option>
+                      </select>
+                    </div>
+
+                    {/* Questionador */}
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Users2 size={14} className="text-cyan-500" /> Questionador*
+                      </label>
+                      <input type="text" placeholder="Nome da empresa ou interessado..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20" />
+                    </div>
+
+                    {/* Resumo do Documento */}
+                    <div className="md:col-span-4 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <FileSearch size={14} className="text-cyan-500" /> Resumo do Documento*
+                      </label>
+                      <textarea rows={3} placeholder="Breve descrição do teor do esclarecimento e resposta do órgão..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20 resize-none"></textarea>
+                    </div>
+
+                    {/* Responsável Cadastramento */}
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <UserCog size={14} className="text-cyan-500" /> Responsável Cadastramento*
+                      </label>
+                      <input type="text" defaultValue="Reinaldo Cavassena" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none" />
+                    </div>
+
+                    {/* Upload */}
+                    <div className="md:col-span-2 space-y-2">
+                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Upload size={14} className="text-cyan-500" /> Anexar Documento de Resposta*
+                      </label>
+                      <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3.5 rounded-[20px] text-[10px] font-black text-slate-400 uppercase hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
+                         <Plus size={14} /> Selecionar PDF do Esclarecimento
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end pt-6">
+                    <button className="bg-cyan-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-cyan-100 hover:scale-105 transition-all flex items-center gap-2">
+                      <Save size={18} /> Salvar Esclarecimento
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Listagem de Esclarecimentos */}
+              <div className="space-y-6">
+                 <div className="flex items-center justify-between px-2">
+                    <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                       <ClipboardList size={18} className="text-cyan-600" /> Dossiê de Esclarecimentos e Respostas
+                    </h3>
+                    <span className="text-[10px] font-black bg-slate-100 text-slate-400 px-3 py-1 rounded-full uppercase tracking-widest">3 Documentos Registrados</span>
+                 </div>
+
+                 <div className="grid grid-cols-1 gap-6">
+                    {[
+                      { type: 'Técnico', date: '22/10/2025', questioner: 'Softplan Planejamento', resumo: 'Questionamento sobre requisitos de interoperabilidade entre Oracle ExaCC e sistemas legados de tribunal superior. Resposta do órgão confirmando compatibilidade via drivers JDBC/ODBC padrão.', file: 'ESCLARECIMENTO_01_TECNICO.PDF', responsible: 'Reinaldo C.' },
+                      { type: 'Comercial', date: '25/10/2025', questioner: 'WK3 Soluções', resumo: 'Dúvida sobre cronograma de faturamento e emissão de notas SIAFI. Órgão esclareceu que a medição será mensal após ativação da célula de controle.', file: 'ESCLARECIMENTO_02_COMERCIAL.PDF', responsible: 'Marcos V.' },
+                      { type: 'Processo', date: '28/10/2025', questioner: 'Consórcio Cloud Brasil', resumo: 'Pedido de prorrogação do prazo para envio de proposta técnica devido à complexidade da versão X11M. Pedido indeferido pelo pregoeiro.', file: 'ESCLARECIMENTO_03_PRAZO.PDF', responsible: 'Giovanna O.' },
+                    ].map((item, idx) => (
+                      <div key={idx} className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden hover:shadow-xl hover:border-cyan-200 transition-all group">
+                         <div className="p-8 flex flex-col md:flex-row gap-8">
+                            <div className="flex-1 space-y-4">
+                               <div className="flex items-center gap-4">
+                                  <span className="bg-cyan-50 text-cyan-600 border border-cyan-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">
+                                     {item.type}
+                                  </span>
+                                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
+                                     <Calendar size={12} /> Recebido em {item.date}
+                                  </span>
+                               </div>
+                               <div className="space-y-1">
+                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Questionador / Interessado</p>
+                                  <h4 className="text-sm font-black text-slate-800 uppercase">{item.questioner}</h4>
+                               </div>
+                               <div className="bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+                                  <p className="text-xs font-bold text-slate-600 leading-relaxed uppercase tracking-tight italic">
+                                     "{item.resumo}"
+                                  </p>
+                               </div>
+                            </div>
+                            <div className="md:w-72 flex flex-col gap-4">
+                               <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex items-center gap-4 group-hover:border-cyan-100 transition-all">
+                                  <div className="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center group-hover:text-cyan-600">
+                                     <FileText size={20} />
+                                  </div>
+                                  <div className="flex-1 overflow-hidden">
+                                     <p className="text-[10px] font-black text-slate-800 uppercase truncate leading-none">{item.file}</p>
+                                     <p className="text-[8px] font-bold text-slate-400 uppercase mt-1">Versão v1.0 • 1.4 MB</p>
+                                  </div>
+                                  <button className="p-2 bg-slate-50 text-slate-400 hover:text-cyan-600 rounded-lg">
+                                     <Download size={14} />
+                                  </button>
+                               </div>
+                               <div className="flex items-center justify-between px-2 pt-2 border-t border-slate-50">
+                                  <div className="flex items-center gap-2">
+                                     <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center text-[8px] font-black text-slate-500">
+                                        {item.responsible.substring(0, 2).toUpperCase()}
+                                     </div>
+                                     <span className="text-[9px] font-bold text-slate-400 uppercase">{item.responsible}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                     <button className="p-2 text-slate-300 hover:text-blue-500 transition-colors"><Edit3 size={14} /></button>
+                                     <button className="p-2 text-slate-300 hover:text-rose-500 transition-colors"><Trash2 size={14} /></button>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                    ))}
+                 </div>
               </div>
             </div>
           )}
@@ -1311,8 +1468,8 @@ const RegisterAssets: React.FC = () => {
             </div>
           )}
 
-          {/* Outras Seções */}
-          {type && !['inteligencia-viabilidade', 'edital-referencia', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes'].includes(type) && (
+          {/* Outras Seções Placeholder */}
+          {type && !['inteligencia-viabilidade', 'edital-referencia', 'esclarecimentos', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes'].includes(type) && (
              <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
                 <div className="max-w-md mx-auto space-y-4">
                   <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>
@@ -1324,8 +1481,8 @@ const RegisterAssets: React.FC = () => {
              </div>
           )}
           
-          {/* TABELA DE ARQUIVOS (PADRÃO PARA TODAS AS ABAS) */}
-          {type !== 'orcamentacao-parceiros' && type !== 'proposta-comercial' && type !== 'habilitacao-declaracoes' && (
+          {/* TABELA DE ARQUIVOS (PADRÃO PARA TODAS AS ABAS EXCETO AS CUSTOMIZADAS) */}
+          {type !== 'orcamentacao-parceiros' && type !== 'proposta-comercial' && type !== 'habilitacao-declaracoes' && type !== 'esclarecimentos' && (
             <div className="space-y-4 pt-4">
               <div className="flex justify-between items-center px-2">
                 <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
