@@ -82,16 +82,16 @@ const Sidebar = () => {
         <Link to="/" className="hover:opacity-90 transition-all duration-300 transform hover:scale-105">
           <div className="flex items-center gap-3">
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 ring-2 ring-white">
+              <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-red-700 rounded-xl flex items-center justify-center shadow-lg shadow-red-200 ring-2 ring-white">
                 <svg viewBox="0 0 24 24" className="w-6 h-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg">
                   <path d="M12 2L4 5V11C4 16.19 7.41 21.05 12 22.5C16.59 21.05 20 16.19 20 11V5L12 2ZM12 11.5L16.5 9.25V11C16.5 13.97 14.58 16.71 12 17.65V11.5Z" />
                 </svg>
               </div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full border-2 border-white animate-pulse"></div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-400 rounded-full border-2 border-white animate-pulse"></div>
             </div>
             <div className="flex flex-col">
               <span className="text-xl font-black text-slate-800 tracking-tighter leading-none">
-                Licita<span className="text-blue-600">Red</span>
+                Licita<span className="text-red-600">Red</span>
               </span>
               <span className="text-[7px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1 bg-slate-100 px-1 rounded">
                 Gestão Inteligente
