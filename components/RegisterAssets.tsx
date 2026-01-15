@@ -14,7 +14,7 @@ import {
   BarChart3, AlertTriangle, Fingerprint, PieChart, Activity, AlertCircle,
   Scale, FileWarning, ExternalLink, UserCheck, HardDrive, Info, HelpCircle,
   Users2, Eye, MessageSquare, PackageSearch, FileLock2, Timer, BellRing,
-  Save
+  Save, Layers, UserPlus, ShieldAlert, FileStack
 } from 'lucide-react';
 
 type DocStatus = 'VÁLIDA' | 'DRAFT' | 'ANTIGA' | 'INVÁLIDA' | 'CANCELADA';
@@ -365,7 +365,7 @@ const RegisterAssets: React.FC = () => {
 
         <div className="p-10 space-y-10">
           
-          {/* ABA: Dossiê do Edital (DETALHADA CONFORME IMAGEM) */}
+          {/* ABA: Dossiê do Edital */}
           {(type === 'edital-referencia' || !type) && (
             <div className="space-y-10">
               
@@ -411,7 +411,7 @@ const RegisterAssets: React.FC = () => {
                 </p>
               </div>
 
-              {/* SEÇÃO 3: REGRAS DE PARTICIPAÇÃO E CONDIÇÕES ADICIONAIS (DESIGN MODERNO CARDS) */}
+              {/* SEÇÃO 3: REGRAS DE PARTICIPAÇÃO E CONDIÇÕES ADICIONAIS */}
               <div className="space-y-6">
                 <div className="flex items-center justify-between px-2">
                   <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
@@ -421,7 +421,7 @@ const RegisterAssets: React.FC = () => {
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {/* CARD: Alertas Críticos (MOVIMENTADO) */}
+                  {/* CARD: Alertas Críticos */}
                   <div className="bg-rose-50/50 border border-rose-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                       <div className="p-3 bg-rose-600 text-white rounded-2xl shadow-lg shadow-rose-200">
@@ -444,7 +444,7 @@ const RegisterAssets: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* CARD: Qualificação Técnica (NOVO PADRONIZADO) */}
+                  {/* CARD: Qualificação Técnica */}
                   <div className="bg-blue-50/50 border border-blue-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                       <div className="p-3 bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-200">
@@ -460,7 +460,7 @@ const RegisterAssets: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* CARD: Garantias Operacionais (MOVIMENTADO) */}
+                  {/* CARD: Garantias Operacionais */}
                   <div className="bg-emerald-50/50 border border-emerald-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
                     <div className="flex items-center justify-between">
                       <div className="p-3 bg-emerald-600 text-white rounded-2xl shadow-lg shadow-emerald-200">
@@ -523,106 +523,10 @@ const RegisterAssets: React.FC = () => {
                       </p>
                     </div>
                   </div>
-
-                  {/* CARD: Prazo / Recurso */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-indigo-50 text-indigo-600 rounded-2xl group-hover:bg-indigo-600 group-hover:text-white transition-all">
-                        <MessageSquare size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Jurídico</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Prazo / Recurso</h4>
-                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.prazoRecurso}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Amostra */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-purple-50 text-purple-600 rounded-2xl group-hover:bg-purple-600 group-hover:text-white transition-all">
-                        <PackageSearch size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Produto</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Amostra</h4>
-                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.amostra}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Seguro Garantia */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl group-hover:bg-rose-600 group-hover:text-white transition-all">
-                        <FileLock2 size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Financeiro</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Seguro Garantia</h4>
-                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify text-[10px] line-clamp-4 hover:line-clamp-none transition-all">
-                        {aguFullData.seguroGarantia}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Vigência Contratual */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-slate-100 text-slate-600 rounded-2xl group-hover:bg-slate-700 group-hover:text-white transition-all">
-                        <Clock size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Prazos</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Vigência Contratual</h4>
-                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.vigenciaContrato}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Modelo de Contratação */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-teal-50 text-teal-600 rounded-2xl group-hover:bg-teal-600 group-hover:text-white transition-all">
-                        <FileCheck size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Modelo</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Modelo de Contratação</h4>
-                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.vigenciaARP}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Modo de Disputa */}
-                  <div className="bg-slate-50/50 border border-slate-200 border-dashed rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl group-hover:bg-rose-500 group-hover:text-white transition-all">
-                        <Timer size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-rose-300 uppercase tracking-widest">Lances</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Modo de Disputa</h4>
-                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        7.10. O procedimento seguirá de acordo com o modo de disputa aberto. <span className="text-rose-600 font-black">10 min normais with prorrogação de 2 em 2 min.</span>
-                      </p>
-                    </div>
-                  </div>
                 </div>
               </div>
 
-              {/* SEÇÃO 4: TABELA DE ARQUIVOS (PADRÃO) */}
+              {/* SEÇÃO 4: TABELA DE ARQUIVOS */}
               <div className="space-y-4 pt-4">
                  <div className="flex justify-between items-center px-2">
                    <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
@@ -723,7 +627,7 @@ const RegisterAssets: React.FC = () => {
             </div>
           )}
 
-          {/* ABA: Inteligência e Viabilidade (ALTA FIDELIDADE) */}
+          {/* ABA: Inteligência e Viabilidade */}
           {type === 'inteligencia-viabilidade' && (
             <div className="space-y-12">
                <div className="flex items-center justify-between">
@@ -739,7 +643,6 @@ const RegisterAssets: React.FC = () => {
                  </div>
                </div>
 
-               {/* Veredito da Inteligência - TONS DE CINZA */}
                <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-10 flex flex-wrap gap-10 items-center justify-between relative overflow-hidden shadow-sm">
                  <div className="absolute top-0 right-0 w-64 h-64 bg-slate-200/50 rounded-full -mr-32 -mt-32"></div>
                  <div className="relative z-10 flex items-center gap-8">
@@ -832,7 +735,7 @@ const RegisterAssets: React.FC = () => {
             </div>
           )}
 
-          {/* ABA: Orçamentação e Parceiros (NOVO CONTEÚDO) */}
+          {/* ABA: Orçamentação e Parceiros */}
           {type === 'orcamentacao-parceiros' && (
             <div className="space-y-10 animate-in fade-in slide-in-from-top-4 duration-500">
               {/* Bloco de Cadastro */}
@@ -944,8 +847,247 @@ const RegisterAssets: React.FC = () => {
             </div>
           )}
 
+          {/* ABA: Proposta Comercial (ATUALIZADA) */}
+          {type === 'proposta-comercial' && (
+            <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
+              {/* Bloco de Cadastro de Orçamentos Recebidos */}
+              <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-10 space-y-10">
+                  <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
+                    <div className="p-2.5 bg-emerald-600 text-white rounded-xl shadow-lg">
+                      <Calculator size={20} />
+                    </div>
+                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Documento de Lote</h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
+                    {/* NOVO CAMPO: Documento */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <FileStack size={14} className="text-emerald-500" /> Tipo de Documento*
+                      </label>
+                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20 appearance-none">
+                        <option>Proposta Comercial</option>
+                        <option>Proposta Técnica</option>
+                        <option>Habilitação</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Layers size={14} className="text-emerald-500" /> Número do Lote*
+                      </label>
+                      <input type="text" placeholder="Ex: Lote 01" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20" />
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <FileText size={14} className="text-emerald-500" /> Resumo Produtos/Serviços*
+                      </label>
+                      <input type="text" placeholder="Breve descrição dos itens..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20" />
+                    </div>
+                    
+                    {/* Linha 2 (Valores e Versão) */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Scale size={14} className="text-emerald-500" /> Valor Global*
+                      </label>
+                      <input type="text" placeholder="R$ 0,00" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <GitBranch size={14} className="text-indigo-500" /> Versão*
+                      </label>
+                      <input type="text" placeholder="Ex: v1.0" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Calendar size={14} className="text-rose-500" /> Data Validade*
+                      </label>
+                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none" />
+                    </div>
+                    <div className="space-y-2">
+                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Upload size={14} className="text-emerald-500" /> Anexar Documento*
+                      </label>
+                      <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3.5 rounded-[20px] text-[10px] font-black text-slate-400 uppercase hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
+                         <Plus size={14} /> Selecionar Arquivo
+                      </button>
+                    </div>
+
+                    {/* Linha 3 (Responsáveis) */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <UserPlus size={14} className="text-blue-500" /> Responsável Criar*
+                      </label>
+                      <div className="flex gap-2">
+                        <input type="text" placeholder="Nome" className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" />
+                        <input type="date" className="w-32 px-2 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" />
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <SearchCode size={14} className="text-amber-500" /> Responsável Revisão*
+                      </label>
+                      <div className="flex gap-2">
+                        <input type="text" placeholder="Nome" className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" />
+                        <input type="date" className="w-32 px-2 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" />
+                      </div>
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <CheckCircle2 size={14} className="text-emerald-500" /> Responsável Aprovação*
+                      </label>
+                      <div className="flex gap-2">
+                        <input type="text" placeholder="Nome do aprovador" className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" />
+                        <input type="date" className="w-32 px-2 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end pt-6">
+                    <button className="bg-emerald-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-emerald-100 hover:scale-105 transition-all flex items-center gap-2">
+                      <Save size={18} /> Salvar Documento no Lote
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Blocos por Número de Lote Subdivididos */}
+              <div className="space-y-12">
+                {[1, 2].map(lote => (
+                  <div key={lote} className="space-y-6">
+                    <div className="flex items-center gap-4 px-2">
+                      <div className="w-12 h-12 bg-slate-900 text-white rounded-[18px] flex items-center justify-center shadow-lg">
+                        <Layers size={24} />
+                      </div>
+                      <div>
+                        <h3 className="text-2xl font-black text-slate-800 uppercase tracking-tighter leading-none">LOTE 0{lote}</h3>
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Órgão: Advocacia Geral da União - AGU</p>
+                      </div>
+                      <div className="h-px bg-slate-200 flex-1 ml-4"></div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-8">
+                      {['Proposta Comercial', 'Proposta Técnica', 'Habilitação'].map((docType, idx) => (
+                        <div key={docType} className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden group">
+                          <div className="p-8 space-y-8">
+                            {/* Header do Sub-bloco de Documento */}
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 pb-6">
+                              <div className="flex items-center gap-4">
+                                 <div className={`w-14 h-14 rounded-[24px] flex items-center justify-center shadow-sm border ${
+                                   idx === 0 ? 'bg-emerald-50 border-emerald-100 text-emerald-600' :
+                                   idx === 1 ? 'bg-blue-50 border-blue-100 text-blue-600' :
+                                   'bg-indigo-50 border-indigo-100 text-indigo-600'
+                                 }`}>
+                                   {idx === 0 ? <Calculator size={28} /> : idx === 1 ? <FileSignature size={28} /> : <ShieldCheck size={28} />}
+                                 </div>
+                                 <div>
+                                   <div className="flex items-center gap-2">
+                                     <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">{docType}</h3>
+                                     <span className="bg-slate-50 text-slate-400 text-[9px] font-black px-2 py-0.5 rounded border uppercase">Lote 0{lote}</span>
+                                   </div>
+                                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Resumo: Itens conforme termo de referência v1.4</p>
+                                 </div>
+                              </div>
+                              <div className="flex items-center gap-4">
+                                 <div className="bg-slate-50 border border-slate-200 px-6 py-3 rounded-2xl text-center">
+                                   <p className="text-[9px] font-black text-slate-400 uppercase leading-none mb-1">Valor do Lote</p>
+                                   <p className="text-lg font-black text-slate-800 uppercase leading-none">R$ {lote === 1 ? '12.450.000,00' : '6.807.923,54'}</p>
+                                 </div>
+                                 <button className="p-3 bg-slate-900 text-white rounded-xl shadow-lg hover:bg-slate-800 transition-all">
+                                   <MoreHorizontal size={20} />
+                                 </button>
+                              </div>
+                            </div>
+
+                            {/* Workflow de Responsáveis replicado */}
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                              <div className="bg-blue-50/50 border border-blue-100 p-5 rounded-[24px] flex items-center gap-4">
+                                 <div className="w-10 h-10 bg-white border border-blue-100 rounded-xl flex items-center justify-center text-blue-600 shadow-sm">
+                                   <UserPlus size={20} />
+                                 </div>
+                                 <div className="flex-1">
+                                   <p className="text-[9px] font-black text-blue-400 uppercase tracking-widest leading-none">Criação</p>
+                                   <p className="text-xs font-black text-slate-800 uppercase mt-1">Marcos Viana</p>
+                                   <p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5">18/10/2025</p>
+                                 </div>
+                              </div>
+                              <div className="bg-amber-50/50 border border-amber-100 p-5 rounded-[24px] flex items-center gap-4">
+                                 <div className="w-10 h-10 bg-white border border-amber-100 rounded-xl flex items-center justify-center text-amber-600 shadow-sm">
+                                   <SearchCode size={20} />
+                                 </div>
+                                 <div className="flex-1">
+                                   <p className="text-[9px] font-black text-amber-400 uppercase tracking-widest leading-none">Revisão</p>
+                                   <p className="text-xs font-black text-slate-800 uppercase mt-1">Thaissa Danielle</p>
+                                   <p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5">20/10/2025</p>
+                                 </div>
+                              </div>
+                              <div className={`p-5 rounded-[24px] flex items-center gap-4 border ${
+                                idx === 0 ? 'bg-emerald-50/50 border-emerald-100' :
+                                idx === 1 ? 'bg-blue-50/50 border-blue-100' :
+                                'bg-indigo-50/50 border-indigo-100'
+                              }`}>
+                                 <div className="w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center shadow-sm">
+                                   <Shield size={20} className={idx === 0 ? 'text-emerald-500' : idx === 1 ? 'text-blue-500' : 'text-indigo-500'} />
+                                 </div>
+                                 <div className="flex-1">
+                                   <p className={`text-[9px] font-black uppercase tracking-widest leading-none ${
+                                     idx === 0 ? 'text-emerald-400' : idx === 1 ? 'text-blue-400' : 'text-indigo-400'
+                                   }`}>Aprovação</p>
+                                   <p className="text-xs font-black text-slate-800 uppercase mt-1">Reinaldo Cavassena</p>
+                                   <p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5">22/10/2025</p>
+                                 </div>
+                              </div>
+                            </div>
+
+                            {/* Lista de Arquivos replicada */}
+                            <div className="space-y-4">
+                              <div className="flex items-center justify-between px-2">
+                                <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                                   <FileCheck size={16} className="text-blue-600" /> Arquivos de {docType}
+                                </h4>
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Validade: 30/11/2025</span>
+                              </div>
+
+                              <div className="grid grid-cols-1 gap-3">
+                                {[
+                                  { name: docType.toUpperCase().replace(' ', '_') + '_LOTE_0' + lote + '_V1.PDF', version: 'v1.0', size: '1.2 MB', date: '22/10/2025' },
+                                  { name: 'ANEXO_TECNICO_REFERENCIA_0' + lote + '.PDF', version: 'v1.1', size: '2.5 MB', date: '21/10/2025' }
+                                ].map((file, fIdx) => (
+                                  <div key={fIdx} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex items-center justify-between hover:bg-white transition-all group/file">
+                                    <div className="flex items-center gap-4">
+                                      <div className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 shadow-sm group-hover/file:text-blue-600">
+                                        <FileText size={18} />
+                                      </div>
+                                      <div className="flex flex-col">
+                                         <div className="flex items-center gap-2">
+                                           <span className="text-[11px] font-black text-slate-800 uppercase tracking-tight">{file.name}</span>
+                                           <span className="text-[9px] font-black bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded uppercase">{file.version}</span>
+                                         </div>
+                                         <p className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">{file.size} • Recebido em {file.date}</p>
+                                      </div>
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                      <button className="p-2.5 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600 hover:border-blue-200 transition-all" title="Ver"><Eye size={16} /></button>
+                                      <button className="p-2.5 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-emerald-600 hover:border-emerald-200 transition-all" title="Baixar"><Download size={16} /></button>
+                                      <button className="p-2.5 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-rose-500 hover:border-rose-200 transition-all" title="Excluir"><Trash2 size={16} /></button>
+                                    </div>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Outras Seções */}
-          {type && !['inteligencia-viabilidade', 'edital-referencia', 'orcamentacao-parceiros'].includes(type) && (
+          {type && !['inteligencia-viabilidade', 'edital-referencia', 'orcamentacao-parceiros', 'proposta-comercial'].includes(type) && (
              <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
                 <div className="max-w-md mx-auto space-y-4">
                   <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>
@@ -957,8 +1099,8 @@ const RegisterAssets: React.FC = () => {
              </div>
           )}
 
-          {/* TABELA DE ARQUIVOS (PADRÃO PARA TODAS AS ABAS) - Somente se não for a aba de parceiros que tem tabela própria */}
-          {type !== 'orcamentacao-parceiros' && (
+          {/* TABELA DE ARQUIVOS (PADRÃO PARA TODAS AS ABAS) */}
+          {type !== 'orcamentacao-parceiros' && type !== 'proposta-comercial' && (
             <div className="space-y-4 pt-4">
               <div className="flex justify-between items-center px-2">
                 <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
