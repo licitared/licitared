@@ -197,10 +197,16 @@ const RegisterAssets: React.FC = () => {
       color: 'bg-purple-600'
     },
     'concorrencia': { 
-      title: 'Concorrência e Prova de Conceito', 
-      subtitle: 'Análise e Gestão de Concorrência',
+      title: 'Concorrência', 
+      subtitle: 'Análise e Gestão de Competidores',
       icon: <Gavel size={28} />,
       color: 'bg-slate-700'
+    },
+    'prova-conceito': { 
+      title: 'Prova de Conceito', 
+      subtitle: 'Validação Técnica e Testes de Solução',
+      icon: <Cpu size={28} />,
+      color: 'bg-slate-800'
     },
     'homologacao-contrato': { 
       title: 'Homologação e Contrato', 
@@ -810,7 +816,7 @@ const RegisterAssets: React.FC = () => {
                             <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Nível de Confiança</span>
                             <span className="text-10px font-black text-blue-600">{item.confianca}%</span>
                          </div>
-                         <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                         <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
                             <div 
                               className={`h-full transition-all duration-1000 ${item.confianca > 90 ? 'bg-emerald-500' : 'bg-blue-500'}`} 
                               style={{ width: `${item.confianca}%` }}
@@ -1362,12 +1368,22 @@ const RegisterAssets: React.FC = () => {
           )}
 
           {/* Outras Seções Placeholder */}
-          {type && !['inteligencia-viabilidade', 'edital-referencia', 'esclarecimentos', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes'].includes(type) && (
+          {type && !['inteligencia-viabilidade', 'edital-referencia', 'esclarecimentos', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes', 'concorrencia', 'prova-conceito'].includes(type) && (
              <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
                 <div className="max-w-md mx-auto space-y-4">
                   <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>{currentSection.icon}</div>
                   <h2 className="text-lg font-black text-slate-800 uppercase tracking-tighter">Módulo de {currentSection.title} em Configuração</h2>
                   <p className="text-[11px] text-slate-500 font-bold uppercase">Integração nativa com robô de automação LicitaRed</p>
+                </div>
+             </div>
+          )}
+
+          {(type === 'concorrencia' || type === 'prova-conceito') && (
+             <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
+                <div className="max-w-md mx-auto space-y-4">
+                  <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>{currentSection.icon}</div>
+                  <h2 className="text-lg font-black text-slate-800 uppercase tracking-tighter">Módulo de {currentSection.title}</h2>
+                  <p className="text-[11px] text-slate-500 font-bold uppercase">{currentSection.subtitle}</p>
                 </div>
              </div>
           )}

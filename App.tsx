@@ -7,7 +7,7 @@ import {
   BarChart3, Globe, Users, ChevronDown, FileCheck, FileText, Gavel, HelpCircle, AlertOctagon, 
   ClipboardList, Banknote, BookOpen, SearchCode, Calculator, FileSignature, Building2, Users2, 
   ListOrdered, ShieldAlert, LifeBuoy, BookmarkCheck, MoreHorizontal, FileSearch, Target, Briefcase,
-  History, Building, MessageSquare
+  History, Building, MessageSquare, Cpu
 } from 'lucide-react';
 import Dashboard from './components/Dashboard';
 import SearchBids from './components/SearchBids';
@@ -66,7 +66,8 @@ const Sidebar = () => {
     { path: '/register/habilitacao-declaracoes', icon: ShieldCheck, label: 'Habilitação Geral' },
     { path: '/register/sessao-lances', icon: Zap, label: 'Sessão Pública e Lances' },
     { path: '/register/atas-classificacao', icon: ListOrdered, label: 'Atas e Classificação' },
-    { path: '/register/concorrencia', icon: Gavel, label: 'Concorrência e Prova de Conceito' },
+    { path: '/register/concorrencia', icon: Gavel, label: 'Concorrência' },
+    { path: '/register/prova-conceito', icon: Cpu, label: 'Prova de Conceito' },
     { path: '/register/homologacao-contrato', icon: FileSignature, label: 'Homologação e Contrato' },
     { path: '/register/pos-venda-booking', icon: BookmarkCheck, label: 'Pós-Venda e Entrega' },
   ];
