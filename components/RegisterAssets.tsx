@@ -15,7 +15,7 @@ import {
   Scale, FileWarning, ExternalLink, UserCheck, HardDrive, Info, HelpCircle,
   Users2, Eye, MessageSquare, PackageSearch, FileLock2, Timer, BellRing,
   Save, Layers, UserPlus, ShieldAlert, FileStack, BadgeCheck, History,
-  FileQuestion, HelpCircle as HelpIcon, UserCog
+  FileQuestion, HelpCircle as HelpIcon, UserCog, AlertOctagon
 } from 'lucide-react';
 
 type DocStatus = 'VÁLIDA' | 'DRAFT' | 'ANTIGA' | 'INVÁLIDA' | 'CANCELADA';
@@ -189,6 +189,12 @@ const RegisterAssets: React.FC = () => {
       subtitle: 'Monitoramento da Disputa em Tempo Real',
       icon: <Zap size={28} />,
       color: 'bg-rose-600'
+    },
+    'impugnacoes': { 
+      title: 'Impugnações', 
+      subtitle: 'Gestão de Contestações do Edital',
+      icon: <AlertOctagon size={28} />,
+      color: 'bg-orange-600'
     },
     'atas-classificacao': { 
       title: 'Atas e Classificação', 
@@ -1030,7 +1036,7 @@ const RegisterAssets: React.FC = () => {
                       <table className="w-full text-left">
                         <thead>
                           <tr className="border-b border-slate-100 bg-slate-50/30">
-                            <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Documento / Resumo</th>
+                            <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Documento / Versão</th>
                             <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Versão</th>
                             <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Recebimento</th>
                             <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Valor Global</th>
@@ -1368,7 +1374,7 @@ const RegisterAssets: React.FC = () => {
           )}
 
           {/* Outras Seções Placeholder */}
-          {type && !['inteligencia-viabilidade', 'edital-referencia', 'esclarecimentos', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes', 'concorrencia', 'prova-conceito'].includes(type) && (
+          {type && !['inteligencia-viabilidade', 'edital-referencia', 'esclarecimentos', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes', 'concorrencia', 'prova-conceito', 'impugnacoes'].includes(type) && (
              <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
                 <div className="max-w-md mx-auto space-y-4">
                   <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>{currentSection.icon}</div>
@@ -1378,7 +1384,7 @@ const RegisterAssets: React.FC = () => {
              </div>
           )}
 
-          {(type === 'concorrencia' || type === 'prova-conceito') && (
+          {(type === 'concorrencia' || type === 'prova-conceito' || type === 'impugnacoes') && (
              <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
                 <div className="max-w-md mx-auto space-y-4">
                   <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>{currentSection.icon}</div>
