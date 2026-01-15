@@ -14,7 +14,7 @@ import {
   BarChart3, AlertTriangle, Fingerprint, PieChart, Activity, AlertCircle,
   Scale, FileWarning, ExternalLink, UserCheck, HardDrive, Info, HelpCircle,
   Users2, Eye, MessageSquare, PackageSearch, FileLock2, Timer, BellRing,
-  Save, Layers, UserPlus, ShieldAlert, FileStack
+  Save, Layers, UserPlus, ShieldAlert, FileStack, BadgeCheck, History
 } from 'lucide-react';
 
 type DocStatus = 'VÁLIDA' | 'DRAFT' | 'ANTIGA' | 'INVÁLIDA' | 'CANCELADA';
@@ -277,7 +277,7 @@ const RegisterAssets: React.FC = () => {
     prazoEntrega: "Ativação em 60 dias úteis.",
     valorGlobal: "R$ 19.257.923,54",
     resumoDescritivo: "Contratação de Solução redundante de nuvem dedicada Oracle Exadata Cloud at Customer (ExaCC), na versão X11M ou superior, incluindo Oracle PaaS e IaaS Universal Credit por demanda e sem consumo mínimo, bem como os serviços necessários para ativação completa da solução, migração de dados e serviços técnicos especializados por demanda.",
-    permiteConsorcio: "4.21.2. Não se vislumbra necessidade de permissão da participação em consórcio, tendo em vista as características técnicas do objeto.",
+    permiteConsorcio: "4.21.2. Não se vislumbra necessidade de permissão da participação em concórcio, tendo em vista as características técnicas do objeto.",
     permiteSubcontratacao: "4.21. Subcontratação. 4.21.1. Não é admitida a subcontratação do objeto contratual.",
     vistoria: "4.16. Vistoria. 4.16.1. Não há necessidade de realização de avaliação prévia do local de execução dos serviços.",
     prazoRecurso: "13.3.2. O prazo para a intenção de recurso é de 10 (dez) minutos. 13.2. O prazo recursal é de 3 (três) dias úteis.",
@@ -955,16 +955,44 @@ const RegisterAssets: React.FC = () => {
               {/* Blocos por Número de Lote Subdivididos */}
               <div className="space-y-12">
                 {[1, 2].map(lote => (
-                  <div key={lote} className="space-y-6">
-                    <div className="flex items-center gap-4 px-2">
-                      <div className="w-12 h-12 bg-slate-900 text-white rounded-[18px] flex items-center justify-center shadow-lg">
-                        <Layers size={24} />
+                  <div key={lote} className="space-y-8">
+                    {/* NOVO DIVISOR DE LOTE EM DESTAQUE */}
+                    <div className="bg-slate-900 rounded-[32px] p-8 shadow-2xl relative overflow-hidden group">
+                      {/* Elemento decorativo de fundo */}
+                      <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 transition-transform group-hover:scale-110 duration-700"></div>
+                      
+                      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div className="flex items-center gap-6">
+                          <div className="w-16 h-16 bg-blue-600 text-white rounded-[24px] flex items-center justify-center shadow-xl shadow-blue-500/20">
+                            <Layers size={32} />
+                          </div>
+                          <div>
+                            <div className="flex items-center gap-3">
+                               <h3 className="text-3xl font-black text-white uppercase tracking-tighter leading-none">LOTE 0{lote}</h3>
+                               <span className="bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Ativo na Disputa</span>
+                            </div>
+                            <div className="flex items-center gap-4 mt-2">
+                              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                                <Landmark size={14} className="text-blue-400" /> Advocacia Geral da União - AGU
+                              </p>
+                              <span className="w-1.5 h-1.5 bg-slate-700 rounded-full"></span>
+                              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                                 <FileStack size={14} className="text-blue-400" /> 3 Tipos de Documentação
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-4">
+                          <div className="bg-white/5 border border-white/10 px-6 py-3 rounded-2xl text-right backdrop-blur-sm">
+                             <p className="text-[10px] font-black text-slate-500 uppercase leading-none mb-1">Valor Estimado Lote</p>
+                             <p className="text-xl font-black text-white uppercase leading-none">R$ {lote === 1 ? '12.450.000,00' : '6.807.923,54'}</p>
+                          </div>
+                          <button className="p-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl shadow-lg transition-all backdrop-blur-md">
+                             <MoreHorizontal size={24} />
+                          </button>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-2xl font-black text-slate-800 uppercase tracking-tighter leading-none">LOTE 0{lote}</h3>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Órgão: Advocacia Geral da União - AGU</p>
-                      </div>
-                      <div className="h-px bg-slate-200 flex-1 ml-4"></div>
                     </div>
 
                     <div className="grid grid-cols-1 gap-8">
@@ -1086,6 +1114,203 @@ const RegisterAssets: React.FC = () => {
             </div>
           )}
 
+          {/* ABA: Habilitação Geral (ATUALIZADA) */}
+          {type === 'habilitacao-declaracoes' && (
+            <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
+               {/* Bloco de Cadastro de Documento de Habilitação */}
+               <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-10 space-y-10">
+                  <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
+                    <div className="p-2.5 bg-indigo-600 text-white rounded-xl shadow-lg">
+                      <ShieldCheck size={20} />
+                    </div>
+                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Documento de Habilitação</h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
+                    {/* Tipo de Documento */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Layers size={14} className="text-indigo-500" /> Grupo de Habilitação*
+                      </label>
+                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20 appearance-none">
+                        <option>Econômico-Financeira</option>
+                        <option>Jurídico</option>
+                        <option>Fiscal</option>
+                        <option>Social e Trabalhista</option>
+                      </select>
+                    </div>
+
+                    {/* Nome do Documento */}
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <FileText size={14} className="text-indigo-500" /> Nome do Documento*
+                      </label>
+                      <input type="text" placeholder="Ex: Certidão Negativa de Débitos Federais" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                    </div>
+
+                    {/* Status */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Activity size={14} className="text-indigo-500" /> Status*
+                      </label>
+                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20 appearance-none">
+                        <option>Válido</option>
+                        <option>Vencido</option>
+                        <option>Preste a Vencer</option>
+                      </select>
+                    </div>
+                    
+                    {/* Datas */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Calendar size={14} className="text-blue-500" /> Data Expedição*
+                      </label>
+                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Clock size={14} className="text-rose-500" /> Data Validade*
+                      </label>
+                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                    </div>
+
+                    {/* Condição */}
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Scale size={14} className="text-amber-500" /> Condição*
+                      </label>
+                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20 appearance-none">
+                        <option>Negativo</option>
+                        <option>Positivo</option>
+                        <option>Efeito Positivo</option>
+                      </select>
+                    </div>
+
+                    {/* Arquivo */}
+                    <div className="space-y-2">
+                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Upload size={14} className="text-indigo-500" /> Anexar Documento*
+                      </label>
+                      <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3.5 rounded-[20px] text-[10px] font-black text-slate-400 uppercase hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
+                         <Plus size={14} /> Selecionar PDF
+                      </button>
+                    </div>
+
+                    {/* Workflow Responsáveis */}
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <UserPlus size={14} className="text-blue-500" /> Responsável Cadastrar*
+                      </label>
+                      <div className="flex gap-2">
+                        <input type="text" placeholder="Nome do cadastrador" className="flex-1 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" />
+                        <input type="date" className="w-40 px-2 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" />
+                      </div>
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <SearchCode size={14} className="text-emerald-500" /> Responsável Revisão*
+                      </label>
+                      <div className="flex gap-2">
+                        <input type="text" placeholder="Nome do revisor" className="flex-1 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" />
+                        <input type="date" className="w-40 px-2 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-end pt-6">
+                    <button className="bg-indigo-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-indigo-100 hover:scale-105 transition-all flex items-center gap-2">
+                      <Save size={18} /> Salvar Habilitação
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Listagem de Habilitação por Categorias */}
+              <div className="space-y-12">
+                {[
+                  { title: 'Econômico-Financeira', icon: <TrendingUp size={28} />, color: 'amber', docs: ['Balanço Patrimonial 2024', 'Certidão de Falência e Recuperação Judicial'] },
+                  { title: 'Jurídico', icon: <Landmark size={28} />, color: 'blue', docs: ['Contrato Social Consolidado', 'Procurações Administrativas'] },
+                  { title: 'Fiscal', icon: <FileCheck size={28} />, color: 'emerald', docs: ['CND Federal e Dívida Ativa', 'CND Estadual SP', 'CND Municipal SP', 'Certificado de Regularidade FGTS'] },
+                  { title: 'Social e Trabalhista', icon: <Users2 size={28} />, color: 'indigo', docs: ['Certidão Negativa de Débitos Trabalhistas (CNDT)', 'Declaração de Trabalho de Menor'] }
+                ].map((category, catIdx) => (
+                  <div key={catIdx} className="space-y-6">
+                     <div className={`bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden`}>
+                        <div className={`p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50`}>
+                           <div className="flex items-center gap-4">
+                              <div className={`w-14 h-14 bg-white border border-slate-200 rounded-2xl flex items-center justify-center shadow-sm text-${category.color}-500`}>
+                                 {category.icon}
+                              </div>
+                              <div>
+                                 <h3 className="text-xl font-black text-slate-800 uppercase tracking-tighter">{category.title}</h3>
+                                 <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">{category.docs.length} Documentos Monitorados</p>
+                              </div>
+                           </div>
+                           <div className="flex items-center gap-3">
+                              <span className={`bg-${category.color}-50 text-${category.color}-600 border border-${category.color}-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest`}>
+                                 Monitoramento Ativo
+                              </span>
+                              <button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-slate-600 transition-all">
+                                 <MoreHorizontal size={20} />
+                              </button>
+                           </div>
+                        </div>
+
+                        <div className="overflow-x-auto">
+                           <table className="w-full text-left">
+                              <thead>
+                                 <tr className="bg-slate-50/30 border-b border-slate-100">
+                                    <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Documento / Versão</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Expedição</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Validade</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Condição</th>
+                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
+                                    <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ação</th>
+                                 </tr>
+                              </thead>
+                              <tbody className="divide-y divide-slate-50">
+                                 {category.docs.map((doc, docIdx) => (
+                                    <tr key={docIdx} className="hover:bg-slate-50/50 transition-all group">
+                                       <td className="px-8 py-5">
+                                          <div className="flex items-center gap-4">
+                                             <div className="w-10 h-10 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center">
+                                                <FileText size={18} />
+                                             </div>
+                                             <div className="flex flex-col">
+                                                <span className="text-xs font-black text-slate-700 uppercase tracking-tight">{doc}</span>
+                                                <span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">Versão Atual: v1.2 • 850 KB</span>
+                                             </div>
+                                          </div>
+                                       </td>
+                                       <td className="px-6 py-5 text-center text-[11px] font-bold text-slate-500">10/10/2025</td>
+                                       <td className="px-6 py-5 text-center text-[11px] font-bold text-slate-500">10/04/2026</td>
+                                       <td className="px-6 py-5 text-center">
+                                          <span className="bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest">Negativo</span>
+                                       </td>
+                                       <td className="px-6 py-5 text-center">
+                                          <span className="bg-emerald-50 text-emerald-600 border border-emerald-100 px-3 py-1 rounded-full text-[10px] font-black uppercase flex items-center justify-center gap-1.5 mx-auto max-w-[100px]">
+                                             <CheckCircle2 size={12} /> Válido
+                                          </span>
+                                       </td>
+                                       <td className="px-8 py-5">
+                                          <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                             <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600 transition-all" title="Visualizar"><Eye size={14} /></button>
+                                             <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-indigo-600 transition-all" title="Histórico"><History size={14} /></button>
+                                             <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-rose-500 transition-all" title="Excluir"><Trash2 size={14} /></button>
+                                          </div>
+                                       </td>
+                                    </tr>
+                                 ))}
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* Outras Seções */}
           {type && !['inteligencia-viabilidade', 'edital-referencia', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes'].includes(type) && (
              <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
@@ -1099,19 +1324,6 @@ const RegisterAssets: React.FC = () => {
              </div>
           )}
           
-          {/* Habilitação Geral Placeholder */}
-          {type === 'habilitacao-declaracoes' && (
-             <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
-                <div className="max-w-md mx-auto space-y-4">
-                  <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>
-                     <ShieldCheck size={32} />
-                  </div>
-                  <h2 className="text-lg font-black text-slate-800 uppercase tracking-tighter">Habilitação Geral</h2>
-                  <p className="text-[11px] text-slate-500 font-bold uppercase">Gestão de Certidões, Contratos Sociais e Declarações Administrativas</p>
-                </div>
-             </div>
-          )}
-
           {/* TABELA DE ARQUIVOS (PADRÃO PARA TODAS AS ABAS) */}
           {type !== 'orcamentacao-parceiros' && type !== 'proposta-comercial' && type !== 'habilitacao-declaracoes' && (
             <div className="space-y-4 pt-4">
