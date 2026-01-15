@@ -1,0 +1,8 @@
+{
+  "name": "LicitaRed - Gestão de Licitações",
+  "description": "Sistema completo para gestão, automação e monitoramento de licitações públicas com robô de disputa e auditoria forense.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
