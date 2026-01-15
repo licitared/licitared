@@ -78,11 +78,27 @@ const Sidebar = () => {
 
   return (
     <aside className="w-64 bg-[#f8fafc] border-r border-slate-200 h-screen fixed left-0 top-0 flex flex-col z-50 overflow-y-auto">
-      <div className="p-6 flex items-center gap-3 sticky top-0 bg-[#f8fafc] z-10 border-b border-slate-100 mb-4">
-        <div className="bg-[#1e293b] p-2 rounded-lg">
-          <Zap size={20} className="text-blue-400 fill-current" />
-        </div>
-        <span className="text-xl font-black tracking-tighter text-[#1e293b]">LicitaRed</span>
+      <div className="p-6 flex items-center justify-center sticky top-0 bg-[#f8fafc] z-10 border-b border-slate-100 mb-4">
+        <Link to="/" className="hover:opacity-90 transition-all duration-300 transform hover:scale-105">
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-700 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200 ring-2 ring-white">
+                <svg viewBox="0 0 24 24" className="w-6 h-6 text-white fill-current" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M12 2L4 5V11C4 16.19 7.41 21.05 12 22.5C16.59 21.05 20 16.19 20 11V5L12 2ZM12 11.5L16.5 9.25V11C16.5 13.97 14.58 16.71 12 17.65V11.5Z" />
+                </svg>
+              </div>
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-400 rounded-full border-2 border-white animate-pulse"></div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl font-black text-slate-800 tracking-tighter leading-none">
+                Licita<span className="text-blue-600">Red</span>
+              </span>
+              <span className="text-[7px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1 bg-slate-100 px-1 rounded">
+                Gestão Inteligente
+              </span>
+            </div>
+          </div>
+        </Link>
       </div>
 
       <nav className="flex-1 px-4 space-y-1 pb-8">
