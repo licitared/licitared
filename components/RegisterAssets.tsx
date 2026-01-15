@@ -166,13 +166,13 @@ const RegisterAssets: React.FC = () => {
       color: 'bg-amber-500'
     },
     'proposta-comercial': { 
-      title: 'Proposta Comercial', 
+      title: 'Propostas e Habilitação Técnica', 
       subtitle: 'Configuração de Preços e Prazos',
       icon: <Calculator size={28} />,
       color: 'bg-emerald-600'
     },
     'habilitacao-declaracoes': { 
-      title: 'Habilitação e Declarações', 
+      title: 'Habilitação Geral', 
       subtitle: 'Conformidade Documental e Jurídica',
       icon: <ShieldCheck size={28} />,
       color: 'bg-indigo-600'
@@ -847,7 +847,7 @@ const RegisterAssets: React.FC = () => {
             </div>
           )}
 
-          {/* ABA: Proposta Comercial (ATUALIZADA) */}
+          {/* ABA: Propostas e Habilitação Técnica (ATUALIZADA) */}
           {type === 'proposta-comercial' && (
             <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
               {/* Bloco de Cadastro de Orçamentos Recebidos */}
@@ -869,7 +869,7 @@ const RegisterAssets: React.FC = () => {
                       <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20 appearance-none">
                         <option>Proposta Comercial</option>
                         <option>Proposta Técnica</option>
-                        <option>Habilitação</option>
+                        <option>Habilitação Técnica</option>
                       </select>
                     </div>
 
@@ -968,7 +968,7 @@ const RegisterAssets: React.FC = () => {
                     </div>
 
                     <div className="grid grid-cols-1 gap-8">
-                      {['Proposta Comercial', 'Proposta Técnica', 'Habilitação'].map((docType, idx) => (
+                      {['Proposta Comercial', 'Proposta Técnica', 'Habilitação Técnica'].map((docType, idx) => (
                         <div key={docType} className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden group">
                           <div className="p-8 space-y-8">
                             {/* Header do Sub-bloco de Documento */}
@@ -1087,7 +1087,7 @@ const RegisterAssets: React.FC = () => {
           )}
 
           {/* Outras Seções */}
-          {type && !['inteligencia-viabilidade', 'edital-referencia', 'orcamentacao-parceiros', 'proposta-comercial'].includes(type) && (
+          {type && !['inteligencia-viabilidade', 'edital-referencia', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes'].includes(type) && (
              <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
                 <div className="max-w-md mx-auto space-y-4">
                   <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>
@@ -1098,9 +1098,22 @@ const RegisterAssets: React.FC = () => {
                 </div>
              </div>
           )}
+          
+          {/* Habilitação Geral Placeholder */}
+          {type === 'habilitacao-declaracoes' && (
+             <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
+                <div className="max-w-md mx-auto space-y-4">
+                  <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>
+                     <ShieldCheck size={32} />
+                  </div>
+                  <h2 className="text-lg font-black text-slate-800 uppercase tracking-tighter">Habilitação Geral</h2>
+                  <p className="text-[11px] text-slate-500 font-bold uppercase">Gestão de Certidões, Contratos Sociais e Declarações Administrativas</p>
+                </div>
+             </div>
+          )}
 
           {/* TABELA DE ARQUIVOS (PADRÃO PARA TODAS AS ABAS) */}
-          {type !== 'orcamentacao-parceiros' && type !== 'proposta-comercial' && (
+          {type !== 'orcamentacao-parceiros' && type !== 'proposta-comercial' && type !== 'habilitacao-declaracoes' && (
             <div className="space-y-4 pt-4">
               <div className="flex justify-between items-center px-2">
                 <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">

@@ -61,8 +61,8 @@ const Sidebar = () => {
     { path: '/register/edital-referencia', icon: BookOpen, label: 'Edital e Referência' },
     { path: '/register/inteligencia-viabilidade', icon: SearchCode, label: 'Inteligência e Viabilidade' },
     { path: '/register/orcamentacao-parceiros', icon: Building2, label: 'Orçamentação e Parceiros' },
-    { path: '/register/proposta-comercial', icon: Calculator, label: 'Proposta Comercial' },
-    { path: '/register/habilitacao-declaracoes', icon: ShieldCheck, label: 'Habilitação e Declarações' },
+    { path: '/register/proposta-comercial', icon: Calculator, label: 'Propostas e Habilitação Técnica' },
+    { path: '/register/habilitacao-declaracoes', icon: ShieldCheck, label: 'Habilitação Geral' },
     { path: '/register/sessao-lances', icon: Zap, label: 'Sessão Pública e Lances' },
     { path: '/register/atas-classificacao', icon: ListOrdered, label: 'Atas e Classificação' },
     { path: '/register/concorrencia', icon: Gavel, label: 'Concorrência e Prova de Conceito' },
@@ -121,7 +121,7 @@ const Sidebar = () => {
           )}
         </div>
 
-        <Link to="/dispute" className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isActive('/dispute') ? 'bg-blue-50 text-blue-700 border border-blue-100 shadow-sm' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}><Zap size={18} /> Disputar</Link>
+        <Link to="/dispute" className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isActive('/dispute') ? 'bg-blue-50 text-blue-100 shadow-sm' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}><Zap size={18} /> Disputar</Link>
         <Link to="/monitor" className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isActive('/monitor') ? 'bg-blue-50 text-blue-700 border border-blue-100 shadow-sm' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}><Activity size={18} /> Monitorar</Link>
         <Link to="/audit" className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isActive('/audit') ? 'bg-blue-50 text-blue-700 border border-blue-100 shadow-sm' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}><ShieldCheck size={18} /> Auditoria</Link>
         <Link to="/previous" className={`flex items-center gap-3 px-4 py-2.5 rounded-lg text-sm font-semibold transition-all ${isActive('/previous') ? 'bg-blue-50 text-blue-700 border border-blue-100 shadow-sm' : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'}`}><History size={18} /> Anteriores</Link>
