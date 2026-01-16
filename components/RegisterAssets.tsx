@@ -15,7 +15,8 @@ import {
   Scale, FileWarning, ExternalLink, UserCheck, HardDrive, Info, HelpCircle,
   Users2, Eye, MessageSquare, PackageSearch, FileLock2, Timer, BellRing,
   Save, Layers, UserPlus, ShieldAlert, FileStack, BadgeCheck, History,
-  FileQuestion, HelpCircle as HelpIcon, UserCog, AlertOctagon, Scale as GavelIcon
+  FileQuestion, HelpCircle as HelpIcon, UserCog, AlertOctagon, Scale as GavelIcon,
+  Ban, Hash, Banknote, Receipt
 } from 'lucide-react';
 
 type DocStatus = 'VÁLIDA' | 'DRAFT' | 'ANTIGA' | 'INVÁLIDA' | 'CANCELADA';
@@ -56,6 +57,20 @@ interface ViabilityItem {
   iconBg: string;
 }
 
+// Mock para Diligência
+interface DiligenciaDoc {
+  id: string;
+  lote: string;
+  cnpj: string;
+  tipo: 'Jurídico' | 'Financeiro' | 'Fiscal' | 'Técnico';
+  resumo: string;
+  data: string;
+  referencia: string;
+  arquivo: string;
+  responsavel: string;
+  status: 'Ativo' | 'Desabilitado';
+}
+
 const RegisterAssets: React.FC = () => {
   const { type } = useParams<{ type?: string }>();
   const { activeEdital } = useEdital();
@@ -63,7 +78,15 @@ const RegisterAssets: React.FC = () => {
   const [editalFileGroups, setEditalFileGroups] = useState<DocumentGroup[]>([]);
   const [isUploading, setIsUploading] = useState(false);
 
-  // Dados de Viabilidade de Alta Fidelidade
+  // Mock Data para Diligências
+  const [diligencias] = useState<DiligenciaDoc[]>([
+    { id: 'd1', lote: '01', cnpj: '42.345.678/0001-90', tipo: 'Técnico', resumo: 'Relatório de vistoria técnica nas instalações do datacenter. Validada capacidade de hosting.', data: '2025-11-20', referencia: 'Vistoria Brasília Sede', arquivo: 'RELAT_VISTORIA_TEC_L1.PDF', responsavel: 'Thaissa D.', status: 'Ativo' },
+    { id: 'd2', lote: '01', cnpj: '42.345.678/0001-90', tipo: 'Jurídico', resumo: 'Conferência de livros societários e procurações originais conforme solicitado pelo pregoeiro.', data: '2025-11-20', referencia: 'Documentação Societária', arquivo: 'DIL_JUR_SOCIETARIO.PDF', responsavel: 'Reinaldo C.', status: 'Ativo' },
+    { id: 'd3', lote: '02', cnpj: '42.345.678/0001-90', tipo: 'Financeiro', resumo: 'Verificação de balancetes do último trimestre e fluxo de caixa projetado para o contrato.', data: '2025-11-22', referencia: 'Saúde Financeira Lote 2', arquivo: 'BALANCETE_DIL_L2.PDF', responsavel: 'Marcos V.', status: 'Ativo' },
+    { id: 'd4', lote: '02', cnpj: '42.345.678/0001-90', tipo: 'Fiscal', resumo: 'Diligência para comprovação de quitação de ISS local pendente de atualização no sistema.', data: '2025-11-22', referencia: 'Regularidade Fiscal Municipal', arquivo: 'CERTIDAO_ISS_MARABA.PDF', responsavel: 'Thaissa D.', status: 'Desabilitado' },
+  ]);
+
+  // Dados de Viabilidade
   const viabilityData: ViabilityItem[] = [
     { 
       title: "Viabilidade Econômica", 
@@ -195,6 +218,12 @@ const RegisterAssets: React.FC = () => {
       subtitle: 'Gestão de Contestações do Edital',
       icon: <AlertOctagon size={28} />,
       color: 'bg-orange-600'
+    },
+    'diligencia': { 
+      title: 'Diligência', 
+      subtitle: 'Acompanhamento de Diligências e Vistorias Técnicas',
+      icon: <FileSearch size={28} />,
+      color: 'bg-indigo-500'
     },
     'atas-classificacao': { 
       title: 'Atas e Classificação', 
@@ -975,531 +1004,196 @@ const RegisterAssets: React.FC = () => {
             </div>
           )}
 
-          {/* ABA: Orçamentação e Parceiros */}
-          {type === 'orcamentacao-parceiros' && (
-            <div className="space-y-10 animate-in fade-in slide-in-from-top-4 duration-500">
-              <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
-                <div className="p-10 space-y-8">
-                  <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
-                    <FilePlus size={20} className="text-amber-500" />
-                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Registrar Orçamento Recebido</h2>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Parceiro*</label>
-                      <select className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold uppercase outline-none focus:ring-2 focus:ring-amber-500/20">
-                        <option>Oracle</option>
-                        <option>Microsoft</option>
-                        <option>IBM</option>
-                        <option>H2o</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Data Recebimento*</label>
-                      <input type="date" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Solicitante*</label>
-                      <input type="text" placeholder="Nome do solicitante..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Valor Global*</label>
-                      <input type="text" placeholder="R$ 0,00" className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Validade*</label>
-                      <input type="text" placeholder="30 dias..." className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500/20" />
-                    </div>
-                    <div className="md:col-span-3 lg:col-span-6 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Resumo Produtos/Serviços</label>
-                      <textarea className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold outline-none focus:ring-2 focus:ring-amber-500/20 h-24" placeholder="Descreva os itens do orçamento..."></textarea>
-                    </div>
-                  </div>
-                  <div className="flex justify-end pt-4">
-                    <button className="bg-amber-500 text-white px-10 py-3 rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-amber-100 hover:scale-105 transition-all flex items-center gap-2">
-                      <Save size={16} /> Salvar Orçamento
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-8">
-                {['Oracle', 'Microsoft', 'IBM', 'H2o'].map(partner => (
-                  <div key={partner} className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden">
-                    <div className="px-8 py-6 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                         <div className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-amber-500 shadow-sm"><Building2 size={20} /></div>
-                         <h3 className="text-sm font-black text-slate-800 uppercase tracking-tighter">Parceiro: {partner}</h3>
-                      </div>
-                      <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Orçamentos Ativos</span>
-                    </div>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left">
-                        <thead>
-                          <tr className="border-b border-slate-100 bg-slate-50/30">
-                            <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Documento / Versão</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Versão</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Recebimento</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Valor Global</th>
-                            <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Validade</th>
-                            <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
-                          </tr>
-                        </thead>
-                        <tbody className="divide-y divide-slate-50">
-                          {[1, 2].map(i => (
-                            <tr key={i} className="hover:bg-slate-50 transition-all group">
-                              <td className="px-8 py-5">
-                                <div className="flex items-center gap-4">
-                                  <div className="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center shadow-inner"><FileText size={18} /></div>
-                                  <div className="flex flex-col">
-                                     <span className="text-xs font-black text-slate-800 uppercase tracking-tight">ORÇAMENTO_{partner}_00{i}.PDF</span>
-                                     <span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5 line-clamp-1">Resumo: Solução Cloud para ambiente AGU e suporte premium 24/7...</span>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="px-6 py-5 text-center text-[11px] font-black text-slate-500 uppercase tracking-tighter">v{i}.0</td>
-                              <td className="px-6 py-5 text-center text-[11px] font-bold text-slate-500">1{i}/11/2025</td>
-                              <td className="px-6 py-5 text-center text-[11px] font-black text-slate-800">R$ {i === 1 ? '1.250.000,00' : '980.000,00'}</td>
-                              <td className="px-6 py-5 text-center text-[11px] font-bold text-slate-500 uppercase">30 DIAS</td>
-                              <td className="px-8 py-5">
-                                 <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                   <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600 transition-all"><Eye size={14} /></button>
-                                   <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600 transition-all"><Download size={14} /></button>
-                                   <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-rose-500 transition-all"><Trash2 size={14} /></button>
-                                 </div>
-                              </td>
-                            </tr>
-                          ))}
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ABA: Propostas e Habilitação Técnica */}
-          {type === 'proposta-comercial' && (
+          {/* ABA: Diligência */}
+          {type === 'diligencia' && (
             <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
-              <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
-                <div className="p-10 space-y-10">
-                  <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
-                    <div className="p-2.5 bg-emerald-600 text-white rounded-xl shadow-lg"><Calculator size={20} /></div>
-                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Documento de Lote</h2>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileStack size={14} className="text-emerald-500" /> Tipo de Documento*</label>
-                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20 appearance-none">
-                        <option>Proposta Comercial</option>
-                        <option>Proposta Técnica</option>
-                        <option>Habilitação Técnica</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Layers size={14} className="text-emerald-500" /> Número do Lote*</label>
-                      <input type="text" placeholder="Ex: Lote 01" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20" />
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileText size={14} className="text-emerald-500" /> Resumo Produtos/Serviços*</label>
-                      <input type="text" placeholder="Breve descrição dos itens..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Scale size={14} className="text-emerald-500" /> Valor Global*</label>
-                      <input type="text" placeholder="R$ 0,00" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-emerald-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><GitBranch size={14} className="text-indigo-500" /> Versão*</label>
-                      <input type="text" placeholder="Ex: v1.0" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Calendar size={14} className="text-rose-500" /> Data Validade*</label>
-                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none" />
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Upload size={14} className="text-emerald-500" /> Anexar Documento*</label>
-                      <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3.5 rounded-[20px] text-[10px] font-black text-slate-400 uppercase hover:bg-slate-100 transition-all flex items-center justify-center gap-2"><Plus size={14} /> Selecionar Arquivo</button>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><UserPlus size={14} className="text-blue-500" /> Responsável Criar*</label>
-                      <div className="flex gap-2">
-                        <input type="text" placeholder="Nome" className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" />
-                        <input type="date" className="w-32 px-2 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><SearchCode size={14} className="text-amber-500" /> Responsável Revisão*</label>
-                      <div className="flex gap-2">
-                        <input type="text" placeholder="Nome" className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" />
-                        <input type="date" className="w-32 px-2 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" />
-                      </div>
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><CheckCircle2 size={14} className="text-emerald-500" /> Responsável Aprovação*</label>
-                      <div className="flex gap-2">
-                        <input type="text" placeholder="Nome do aprovador" className="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" />
-                        <input type="date" className="w-32 px-2 py-3 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="flex justify-end pt-6">
-                    <button className="bg-emerald-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-emerald-100 hover:scale-105 transition-all flex items-center gap-2"><Save size={18} /> Salvar Documento no Lote</button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-12">
-                {[1, 2].map(lote => (
-                  <div key={lote} className="space-y-8">
-                    <div className="bg-slate-900 rounded-[32px] p-8 shadow-2xl relative overflow-hidden group">
-                      <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-32 -mt-32 transition-transform group-hover:scale-110 duration-700"></div>
-                      <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <div className="flex items-center gap-6">
-                          <div className="w-16 h-16 bg-blue-600 text-white rounded-[24px] flex items-center justify-center shadow-xl shadow-blue-500/20"><Layers size={32} /></div>
-                          <div>
-                            <div className="flex items-center gap-3">
-                               <h3 className="text-3xl font-black text-white uppercase tracking-tighter leading-none">LOTE 0{lote}</h3>
-                               <span className="bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Ativo na Disputa</span>
-                            </div>
-                            <div className="flex items-center gap-4 mt-2">
-                              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Landmark size={14} className="text-blue-400" /> Advocacia Geral da União - AGU</p>
-                              <span className="w-1.5 h-1.5 bg-slate-700 rounded-full"></span>
-                              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><FileStack size={14} className="text-blue-400" /> 3 Tipos de Documentação</p>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <div className="bg-white/5 border border-white/10 px-6 py-3 rounded-2xl text-right backdrop-blur-sm">
-                             <p className="text-[10px] font-black text-slate-500 uppercase leading-none mb-1">Valor Estimado Lote</p>
-                             <p className="text-xl font-black text-white uppercase leading-none">R$ {lote === 1 ? '12.450.000,00' : '6.807.923,54'}</p>
-                          </div>
-                          <button className="p-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl shadow-lg transition-all backdrop-blur-md"><MoreHorizontal size={24} /></button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="grid grid-cols-1 gap-8">
-                      {['Proposta Comercial', 'Proposta Técnica', 'Habilitação Técnica'].map((docType, idx) => (
-                        <div key={docType} className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden group">
-                          <div className="p-8 space-y-8">
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 border-b border-slate-100 pb-6">
-                              <div className="flex items-center gap-4">
-                                 <div className={`w-14 h-14 rounded-[24px] flex items-center justify-center shadow-sm border ${
-                                   idx === 0 ? 'bg-emerald-50 border-emerald-100 text-emerald-600' : idx === 1 ? 'bg-blue-50 border-blue-100 text-blue-600' : 'bg-indigo-50 border-indigo-100 text-indigo-600'
-                                 }`}>{idx === 0 ? <Calculator size={28} /> : idx === 1 ? <FileSignature size={28} /> : <ShieldCheck size={28} />}</div>
-                                 <div>
-                                   <div className="flex items-center gap-2">
-                                     <h3 className="text-xl font-black text-slate-900 uppercase tracking-tighter">{docType}</h3>
-                                     <span className="bg-slate-50 text-slate-400 text-[9px] font-black px-2 py-0.5 rounded border uppercase">Lote 0{lote}</span>
-                                   </div>
-                                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Resumo: Itens conforme termo de referência v1.4</p>
-                                 </div>
-                              </div>
-                              <div className="flex items-center gap-4">
-                                 <div className="bg-slate-50 border border-slate-200 px-6 py-3 rounded-2xl text-center">
-                                   <p className="text-[9px] font-black text-slate-400 uppercase leading-none mb-1">Valor do Lote</p>
-                                   <p className="text-lg font-black text-slate-800 uppercase leading-none">R$ {lote === 1 ? '12.450.000,00' : '6.807.923,54'}</p>
-                                 </div>
-                                 <button className="p-3 bg-slate-900 text-white rounded-xl shadow-lg hover:bg-slate-800 transition-all"><MoreHorizontal size={20} /></button>
-                              </div>
-                            </div>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                              <div className="bg-blue-50/50 border border-blue-100 p-5 rounded-[24px] flex items-center gap-4">
-                                 <div className="w-10 h-10 bg-white border border-blue-100 rounded-xl flex items-center justify-center text-blue-600 shadow-sm"><UserPlus size={20} /></div>
-                                 <div className="flex-1"><p className="text-[9px] font-black text-blue-400 uppercase tracking-widest leading-none">Criação</p><p className="text-xs font-black text-slate-800 uppercase mt-1">Marcos Viana</p><p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5">18/10/2025</p></div>
-                              </div>
-                              <div className="bg-amber-50/50 border border-amber-100 p-5 rounded-[24px] flex items-center gap-4">
-                                 <div className="w-10 h-10 bg-white border border-amber-100 rounded-xl flex items-center justify-center text-amber-600 shadow-sm"><SearchCode size={20} /></div>
-                                 <div className="flex-1"><p className="text-[9px] font-black text-amber-400 uppercase tracking-widest leading-none">Revisão</p><p className="text-xs font-black text-slate-800 uppercase mt-1">Thaissa Danielle</p><p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5">20/10/2025</p></div>
-                              </div>
-                              <div className={`p-5 rounded-[24px] flex items-center gap-4 border ${
-                                idx === 0 ? 'bg-emerald-50/50 border-emerald-100' : idx === 1 ? 'bg-blue-50/50 border-blue-100' : 'bg-indigo-50/50 border-indigo-100'
-                              }`}><div className="w-10 h-10 bg-white border border-slate-100 rounded-xl flex items-center justify-center shadow-sm"><Shield size={20} className={idx === 0 ? 'text-emerald-500' : idx === 1 ? 'text-blue-500' : 'text-indigo-500'} /></div><div className="flex-1"><p className={`text-[9px] font-black uppercase tracking-widest leading-none ${idx === 0 ? 'text-emerald-400' : idx === 1 ? 'text-blue-400' : 'text-indigo-400'}`}>Aprovação</p><p className="text-xs font-black text-slate-800 uppercase mt-1">Reinaldo Cavassena</p><p className="text-[10px] font-bold text-slate-400 uppercase mt-0.5">22/10/2025</p></div></div>
-                            </div>
-                            <div className="space-y-4">
-                              <div className="flex items-center justify-between px-2">
-                                <h4 className="text-[10px] font-black text-slate-900 uppercase tracking-widest flex items-center gap-2"><FileCheck size={16} className="text-blue-600" /> Arquivos de {docType}</h4>
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Validade: 30/11/2025</span>
-                              </div>
-                              <div className="grid grid-cols-1 gap-3">
-                                {[
-                                  { name: docType.toUpperCase().replace(' ', '_') + '_LOTE_0' + lote + '_V1.PDF', version: 'v1.0', size: '1.2 MB', date: '22/10/2025' },
-                                  { name: 'ANEXO_TECNICO_REFERENCIA_0' + lote + '.PDF', version: 'v1.1', size: '2.5 MB', date: '21/10/2025' }
-                                ].map((file, fIdx) => (
-                                  <div key={fIdx} className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex items-center justify-between hover:bg-white transition-all group/file">
-                                    <div className="flex items-center gap-4">
-                                      <div className="w-10 h-10 bg-white border border-slate-200 rounded-xl flex items-center justify-center text-slate-400 shadow-sm group-hover/file:text-blue-600"><FileText size={18} /></div>
-                                      <div className="flex flex-col"><div className="flex items-center gap-2"><span className="text-[11px] font-black text-slate-800 uppercase tracking-tight">{file.name}</span><span className="text-[9px] font-black bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded uppercase">{file.version}</span></div><p className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">{file.size} • Recebido em {file.date}</p></div>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <button className="p-2.5 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600 transition-all"><Eye size={16} /></button>
-                                      <button className="p-2.5 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-emerald-600 transition-all"><Download size={16} /></button>
-                                      <button className="p-2.5 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-rose-500 transition-all"><Trash2 size={16} /></button>
-                                    </div>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ABA: Habilitação Geral */}
-          {type === 'habilitacao-declaracoes' && (
-            <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
+               {/* Formulário de Cadastramento */}
                <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
                 <div className="p-10 space-y-10">
                   <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
-                    <div className="p-2.5 bg-indigo-600 text-white rounded-xl shadow-lg"><ShieldCheck size={20} /></div>
-                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Documento de Habilitação</h2>
+                    <div className="p-2.5 bg-indigo-600 text-white rounded-xl shadow-lg">
+                      <FileSearch size={20} />
+                    </div>
+                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Documento de Diligência</h2>
                   </div>
+
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Layers size={14} className="text-indigo-500" /> Grupo de Habilitação*</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                        <Layers size={14} className="text-indigo-500" /> Lote*
+                      </label>
+                      <input type="text" placeholder="Ex: 01" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                        <Hash size={14} className="text-indigo-500" /> CNPJ Diligenciado*
+                      </label>
+                      <input type="text" placeholder="00.000.000/0001-00" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                        <FileQuestion size={14} className="text-indigo-500" /> Tipo de Documento*
+                      </label>
                       <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20 appearance-none">
-                        <option>Econômico-Financeira</option>
                         <option>Jurídico</option>
+                        <option>Financeiro</option>
                         <option>Fiscal</option>
-                        <option>Social e Trabalhista</option>
-                      </select>
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest flex items-center gap-1.5"><FileText size={14} className="text-indigo-500" /> Nome do Documento*</label>
-                      <input type="text" placeholder="Ex: Certidão Negativa de Débitos Federais" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Activity size={14} className="text-indigo-500" /> Status*</label>
-                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20 appearance-none">
-                        <option>Válido</option>
-                        <option>Vencido</option>
-                        <option>Preste a Vencer</option>
+                        <option>Técnico</option>
                       </select>
                     </div>
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Calendar size={14} className="text-blue-500" /> Data Expedição*</label>
-                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-blue-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Clock size={14} className="text-rose-500" /> Data Validade*</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                        <Calendar size={14} className="text-indigo-500" /> Data Documento*
+                      </label>
                       <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20" />
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Scale size={14} className="text-amber-500" /> Condição*</label>
-                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20 appearance-none">
-                        <option>Negativo</option>
-                        <option>Positivo</option>
-                        <option>Efeito Positivo</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><Upload size={14} className="text-indigo-500" /> Anexar Documento*</label>
-                      <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3.5 rounded-[20px] text-[10px] font-black text-slate-400 uppercase hover:bg-slate-100 transition-all flex items-center justify-center gap-2"><Plus size={14} /> Selecionar PDF</button>
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><UserPlus size={14} className="text-blue-500" /> Responsável Cadastrar*</label>
-                      <div className="flex gap-2"><input type="text" placeholder="Nome do cadastrador" className="flex-1 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" /><input type="date" className="w-40 px-2 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" /></div>
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5"><SearchCode size={14} className="text-emerald-500" /> Responsável Revisão*</label>
-                      <div className="flex gap-2"><input type="text" placeholder="Nome do revisor" className="flex-1 px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" /><input type="date" className="w-40 px-2 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[10px] font-bold" /></div>
-                    </div>
-                  </div>
-                  <div className="flex justify-end pt-6">
-                    <button className="bg-indigo-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-indigo-100 hover:scale-105 transition-all flex items-center gap-2"><Save size={18} /> Salvar Habilitação</button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-12">
-                {[
-                  { title: 'Econômico-Financeira', icon: <TrendingUp size={28} />, color: 'amber', docs: ['Balanço Patrimonial 2024', 'Certidão de Falência e Recuperação Judicial'] },
-                  { title: 'Jurídico', icon: <Landmark size={28} />, color: 'blue', docs: ['Contrato Social Consolidado', 'Procurações Administrativas'] },
-                  { title: 'Fiscal', icon: <FileCheck size={28} />, color: 'emerald', docs: ['CND Federal e Dívida Ativa', 'CND Estadual SP', 'CND Municipal SP', 'Certificado de Regularidade FGTS'] },
-                  { title: 'Social e Trabalhista', icon: <Users2 size={28} />, color: 'indigo', docs: ['Certidão Negativa de Débitos Trabalhistas (CNDT)', 'Declaração de Trabalho de Menor'] }
-                ].map((category, catIdx) => (
-                  <div key={catIdx} className="space-y-6">
-                     <div className={`bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden`}>
-                        <div className={`p-8 border-b border-slate-100 flex items-center justify-between bg-slate-50/50`}>
-                           <div className="flex items-center gap-4">
-                              <div className={`w-14 h-14 bg-white border border-slate-200 rounded-2xl flex items-center justify-center shadow-sm text-${category.color}-500`}>{category.icon}</div>
-                              <div><h3 className="text-xl font-black text-slate-800 uppercase tracking-tighter">{category.title}</h3><p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">{category.docs.length} Documentos Monitorados</p></div>
-                           </div>
-                           <div className="flex items-center gap-3"><span className={`bg-${category.color}-50 text-${category.color}-600 border border-${category.color}-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest`}>Monitoramento Ativo</span><button className="p-2.5 bg-white border border-slate-200 rounded-xl text-slate-400 hover:text-slate-600 transition-all"><MoreHorizontal size={20} /></button></div>
-                        </div>
-                        <div className="overflow-x-auto">
-                           <table className="w-full text-left">
-                              <thead>
-                                 <tr className="bg-slate-50/30 border-b border-slate-100">
-                                    <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest">Documento / Versão</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Expedição</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Validade</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Condição</th>
-                                    <th className="px-6 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
-                                    <th className="px-8 py-4 text-[10px] font-black text-slate-400 uppercase tracking-widest text-right">Ação</th>
-                                 </tr>
-                              </thead>
-                              <tbody className="divide-y divide-slate-50">
-                                 {category.docs.map((doc, docIdx) => (
-                                    <tr key={docIdx} className="hover:bg-slate-50/50 transition-all group">
-                                       <td className="px-8 py-5">
-                                          <div className="flex items-center gap-4"><div className="w-10 h-10 bg-slate-100 text-slate-400 rounded-xl flex items-center justify-center"><FileText size={18} /></div><div className="flex flex-col"><span className="text-xs font-black text-slate-700 uppercase tracking-tight">{doc}</span><span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">Versão Atual: v1.2 • 850 KB</span></div></div>
-                                       </td>
-                                       <td className="px-6 py-5 text-center text-[11px] font-bold text-slate-500">10/10/2025</td>
-                                       <td className="px-6 py-5 text-center text-[11px] font-bold text-slate-500">10/04/2026</td>
-                                       <td className="px-6 py-5 text-center"><span className="bg-emerald-50 text-emerald-600 border border-emerald-100 px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest">Negativo</span></td>
-                                       <td className="px-6 py-5 text-center"><span className="bg-emerald-50 text-emerald-600 border border-emerald-100 px-3 py-1 rounded-full text-[10px] font-black uppercase flex items-center justify-center gap-1.5 mx-auto max-w-[100px]"><CheckCircle2 size={12} /> Válido</span></td>
-                                       <td className="px-8 py-5">
-                                          <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                             <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600 transition-all"><Eye size={14} /></button>
-                                             <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-indigo-600 transition-all"><History size={14} /></button>
-                                             <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-rose-500 transition-all"><Trash2 size={14} /></button>
-                                          </div>
-                                       </td>
-                                    </tr>
-                                 ))}
-                              </tbody>
-                           </table>
-                        </div>
-                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ABA: Recurso (Impugnações) */}
-          {type === 'impugnacoes' && (
-            <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
-               <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
-                <div className="p-10 space-y-10">
-                  <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
-                    <div className="p-2.5 bg-orange-600 text-white rounded-xl shadow-lg">
-                      <AlertOctagon size={20} />
-                    </div>
-                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Novo Documento de Recurso</h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Calendar size={14} className="text-orange-500" /> Data Documento*
+                    <div className="md:col-span-4 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                        <BookmarkCheck size={14} className="text-indigo-500" /> Referência (Breve Descrição)*
                       </label>
-                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-orange-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Layers size={14} className="text-orange-500" /> Lote*
-                      </label>
-                      <input type="text" placeholder="Número do lote..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-orange-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <FileQuestion size={14} className="text-orange-500" /> Tipo Documento*
-                      </label>
-                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-orange-500/20 appearance-none">
-                        <option>Recurso</option>
-                        <option>Contra Razão</option>
-                        <option>Decisão</option>
-                        <option>Jurídico</option>
-                      </select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <UserCog size={14} className="text-orange-500" /> Responsável*
-                      </label>
-                      <input type="text" placeholder="Nome do responsável..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-orange-500/20" />
+                      <input type="text" placeholder="Ex: Vistoria in-loco Brasília sede..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20" />
                     </div>
                     <div className="md:col-span-4 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <FileSearch size={14} className="text-orange-500" /> Resumo*
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                        <FileSearch size={14} className="text-indigo-500" /> Resumo do Documento*
                       </label>
-                      <textarea rows={3} placeholder="Descreva brevemente o conteúdo do documento..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-orange-500/20 resize-none"></textarea>
+                      <textarea rows={3} placeholder="Descreva os achados e o teor da diligência..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-indigo-500/20 resize-none"></textarea>
                     </div>
                     <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Calendar size={14} className="text-orange-500" /> Data Cadastramento*
-                      </label>
-                      <input type="date" defaultValue={new Date().toISOString().split('T')[0]} className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-orange-500/20" />
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Upload size={14} className="text-orange-500" /> Anexar Documento*
+                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                        <Upload size={14} className="text-indigo-500" /> Upload de Documentos*
                       </label>
                       <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3.5 rounded-[20px] text-[10px] font-black text-slate-400 uppercase hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
-                         <Plus size={14} /> Selecionar Arquivo do Recurso
+                         <Plus size={14} /> Selecionar Arquivos PDF
                       </button>
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5 ml-1">
+                        <UserCog size={14} className="text-indigo-500" /> Responsável*
+                      </label>
+                      <input type="text" defaultValue="Thaissa Danielle" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none" />
                     </div>
                   </div>
                   <div className="flex justify-end pt-6">
-                    <button className="bg-orange-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-orange-100 hover:scale-105 transition-all flex items-center gap-2">
-                      <Save size={18} /> Salvar Registro de Recurso
+                    <button className="bg-indigo-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-indigo-100 hover:scale-105 transition-all flex items-center gap-2">
+                      <Save size={18} /> Salvar Diligência
                     </button>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                 <div className="flex items-center justify-between px-2">
-                    <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                       <History size={18} className="text-orange-600" /> Dossiê de Recursos e Respostas
-                    </h3>
-                    <span className="text-[10px] font-black bg-slate-100 text-slate-400 px-3 py-1 rounded-full uppercase tracking-widest">2 Documentos Registrados</span>
-                 </div>
-                 <div className="grid grid-cols-1 gap-6">
-                    {[
-                      { type: 'Recurso', batch: '01', dateDoc: '05/11/2025', dateReg: '05/11/2025', resumo: 'Interposição de recurso contra desclassificação indevida no lote 01. Alegada falha na interpretação do atestado v2.', file: 'RECURSO_LOTE01_WK3.PDF', responsible: 'Jurídico WK3' },
-                      { type: 'Contra Razão', batch: '01', dateDoc: '10/11/2025', dateReg: '10/11/2025', resumo: 'Contra-razões ao recurso da concorrente CloudBR. Refutação de argumentos sobre capacidade técnica.', file: 'CONTRA_RAZAO_LOTE01.PDF', responsible: 'Thaissa D.' },
-                    ].map((item, idx) => (
-                      <div key={idx} className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden hover:shadow-xl hover:border-orange-200 transition-all group">
-                         <div className="p-8 flex flex-col md:flex-row gap-8">
-                            <div className="flex-1 space-y-4">
-                               <div className="flex items-center gap-4">
-                                  <span className="bg-orange-50 text-orange-600 border border-orange-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">{item.type}</span>
-                                  <span className="bg-slate-50 text-slate-400 border border-slate-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Lote {item.batch}</span>
-                                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5"><Calendar size={12} /> Documento de {item.dateDoc}</span>
-                               </div>
-                               <div className="space-y-1">
-                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Resumo do Documento</p>
-                                  <p className="text-xs font-bold text-slate-600 leading-relaxed uppercase tracking-tight italic">"{item.resumo}"</p>
-                               </div>
-                            </div>
-                            <div className="md:w-72 flex flex-col gap-4">
-                               <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex items-center gap-4 group-hover:border-orange-100 transition-all">
-                                  <div className="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center group-hover:text-orange-600"><FileText size={20} /></div>
-                                  <div className="flex-1 overflow-hidden">
-                                     <p className="text-[10px] font-black text-slate-800 uppercase truncate leading-none">{item.file}</p>
-                                     <p className="text-[8px] font-bold text-slate-400 uppercase mt-1">v1.0 • Registrado em {item.dateReg}</p>
-                                  </div>
-                                  <button className="p-2 bg-slate-50 text-slate-400 hover:text-orange-600 rounded-lg"><Download size={14} /></button>
-                               </div>
-                               <div className="flex items-center justify-between px-2 pt-2 border-t border-slate-50">
-                                  <div className="flex items-center gap-2">
-                                     <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center text-[8px] font-black text-slate-500">{item.responsible.substring(0, 2).toUpperCase()}</div>
-                                     <span className="text-[9px] font-bold text-slate-400 uppercase">{item.responsible}</span>
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                     <button className="p-2 text-slate-300 hover:text-blue-500 transition-colors"><Edit3 size={14} /></button>
-                                     <button className="p-2 text-slate-300 hover:text-rose-500 transition-colors"><Trash2 size={14} /></button>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
+              {/* Listagem de Documentos Agrupada */}
+              <div className="space-y-10">
+                {/* Lógica de agrupamento por lote e tipo */}
+                {['01', '02'].map(loteNum => {
+                  const loteItems = diligencias.filter(d => d.lote === loteNum);
+                  if (loteItems.length === 0) return null;
+
+                  return (
+                    <div key={loteNum} className="space-y-6">
+                      <div className="flex items-center gap-4 px-2">
+                        <div className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-lg">
+                           <Layers size={24} />
+                        </div>
+                        <div>
+                          <h3 className="text-2xl font-black text-slate-800 uppercase tracking-tighter leading-none">LOTE {loteNum}</h3>
+                          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Diligências Realizadas para este Lote</p>
+                        </div>
+                        <div className="h-px bg-slate-200 flex-1 ml-4"></div>
                       </div>
-                    ))}
-                 </div>
+
+                      <div className="grid grid-cols-1 gap-6">
+                        {['Jurídico', 'Financeiro', 'Fiscal', 'Técnico'].map(tipo => {
+                          const itemsByType = loteItems.filter(d => d.tipo === tipo);
+                          if (itemsByType.length === 0) return null;
+
+                          return (
+                            <div key={tipo} className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden">
+                              <div className="px-8 py-5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                   <div className={`w-8 h-8 rounded-lg flex items-center justify-center shadow-sm text-white ${
+                                     tipo === 'Jurídico' ? 'bg-blue-600' :
+                                     tipo === 'Financeiro' ? 'bg-emerald-600' :
+                                     tipo === 'Fiscal' ? 'bg-amber-600' : 'bg-indigo-600'
+                                   }`}>
+                                      {tipo === 'Jurídico' ? <Landmark size={14} /> :
+                                       tipo === 'Financeiro' ? <Banknote size={14} /> :
+                                       tipo === 'Fiscal' ? <Receipt size={14} /> : <Cpu size={14} />}
+                                   </div>
+                                   <h4 className="text-xs font-black text-slate-700 uppercase tracking-widest">{tipo}</h4>
+                                </div>
+                                <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">{itemsByType.length} Documento(s)</span>
+                              </div>
+
+                              <div className="overflow-x-auto">
+                                <table className="w-full text-left">
+                                  <thead>
+                                    <tr className="bg-white border-b border-slate-50">
+                                      <th className="px-8 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Documento / Referência</th>
+                                      <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">CNPJ Diligenciado</th>
+                                      <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Data</th>
+                                      <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
+                                      <th className="px-8 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody className="divide-y divide-slate-50">
+                                    {itemsByType.map((item) => (
+                                      <tr key={item.id} className="hover:bg-slate-50/50 transition-all group">
+                                        <td className="px-8 py-5">
+                                          <div className="flex items-center gap-4">
+                                            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shadow-sm ${item.status === 'Desabilitado' ? 'bg-slate-100 text-slate-300' : 'bg-slate-50 text-slate-400 group-hover:text-indigo-600'}`}>
+                                              <FileText size={18} />
+                                            </div>
+                                            <div className="flex flex-col">
+                                              <span className={`text-xs font-black uppercase tracking-tight ${item.status === 'Desabilitado' ? 'text-slate-300 line-through' : 'text-slate-800'}`}>
+                                                {item.arquivo}
+                                              </span>
+                                              <span className="text-[9px] font-bold text-slate-400 uppercase mt-0.5">{item.referencia}</span>
+                                            </div>
+                                          </div>
+                                        </td>
+                                        <td className="px-6 py-5 text-center text-[10px] font-bold text-slate-500">{item.cnpj}</td>
+                                        <td className="px-6 py-5 text-center text-[10px] font-bold text-slate-500">{item.data}</td>
+                                        <td className="px-6 py-5 text-center">
+                                          <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase border shadow-sm ${
+                                            item.status === 'Ativo' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-100 text-slate-400 border-slate-200'
+                                          }`}>
+                                            {item.status}
+                                          </span>
+                                        </td>
+                                        <td className="px-8 py-5 text-right">
+                                          <div className="flex justify-end gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button title="Editar" className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-amber-600 hover:border-amber-200 transition-all shadow-sm">
+                                              <Edit3 size={14} />
+                                            </button>
+                                            <button title={item.status === 'Ativo' ? "Desabilitar" : "Reabilitar"} className={`p-2 bg-white border border-slate-200 rounded-lg transition-all shadow-sm ${
+                                              item.status === 'Ativo' ? 'text-slate-400 hover:text-slate-600 hover:border-slate-400' : 'text-blue-400 hover:text-blue-600 hover:border-blue-400'
+                                            }`}>
+                                              <Ban size={14} />
+                                            </button>
+                                            <button title="Excluir" className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-rose-500 hover:border-rose-200 transition-all shadow-sm">
+                                              <Trash2 size={14} />
+                                            </button>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
           )}
 
           {/* Outras Seções Placeholder */}
-          {type && !['inteligencia-viabilidade', 'edital-referencia', 'esclarecimentos', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes', 'concorrencia', 'prova-conceito', 'impugnacoes'].includes(type) && (
+          {type && !['inteligencia-viabilidade', 'edital-referencia', 'esclarecimentos', 'orcamentacao-parceiros', 'proposta-comercial', 'habilitacao-declaracoes', 'concorrencia', 'prova-conceito', 'impugnacoes', 'diligencia'].includes(type) && (
              <div className="p-20 text-center bg-slate-50/50 rounded-[40px] border-2 border-dashed border-slate-200">
                 <div className="max-w-md mx-auto space-y-4">
                   <div className={`w-16 h-16 rounded-2xl mx-auto flex items-center justify-center text-white shadow-lg ${currentSection.color}`}>{currentSection.icon}</div>
@@ -1520,7 +1214,7 @@ const RegisterAssets: React.FC = () => {
           )}
           
           {/* TABELA DE ARQUIVOS (EXCETO PARA ABAS QUE JÁ POSSUEM GESTÃO PRÓPRIA DE LISTAGEM) */}
-          {type !== 'orcamentacao-parceiros' && type !== 'proposta-comercial' && type !== 'habilitacao-declaracoes' && type !== 'esclarecimentos' && type !== 'impugnacoes' && (
+          {type !== 'orcamentacao-parceiros' && type !== 'proposta-comercial' && type !== 'habilitacao-declaracoes' && type !== 'esclarecimentos' && type !== 'impugnacoes' && type !== 'diligencia' && (
             <div className="space-y-4 pt-4">
               <div className="flex justify-between items-center px-2">
                 <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2"><FileCheck size={16} className="text-blue-600" /> Documentação Associada</h3>
