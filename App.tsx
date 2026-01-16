@@ -67,9 +67,9 @@ const Sidebar = () => {
     { path: '/register/sessao-lances', icon: Zap, label: 'Sessão Pública e Lances' },
     { path: '/register/impugnacoes', icon: AlertOctagon, label: 'Recurso' },
     { path: '/register/diligencia', icon: FileSearch, label: 'Diligência' },
-    { path: '/register/atas-classificacao', icon: ListOrdered, label: 'Atas e Classificação' },
     { path: '/register/concorrencia', icon: Gavel, label: 'Concorrência' },
     { path: '/register/prova-conceito', icon: Cpu, label: 'Prova de Conceito' },
+    { path: '/register/atas-classificacao', icon: ListOrdered, label: 'Atas e Classificação' },
     { path: '/register/homologacao-contrato', icon: FileSignature, label: 'Homologação e Contrato' },
     { path: '/register/pos-venda-booking', icon: BookmarkCheck, label: 'Pós-Venda e Entrega' },
   ];
