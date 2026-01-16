@@ -16,7 +16,7 @@ import {
   Users2, Eye, MessageSquare, PackageSearch, FileLock2, Timer, BellRing,
   Save, Layers, UserPlus, ShieldAlert, FileStack, BadgeCheck, History,
   FileQuestion, HelpCircle as HelpIcon, UserCog, AlertOctagon, Scale as GavelIcon,
-  Ban, Hash, Banknote, Receipt, DollarSign, UserCheck2
+  Ban, Hash, Banknote, Receipt, DollarSign, UserCheck2, User
 } from 'lucide-react';
 
 type DocStatus = 'VÁLIDA' | 'DRAFT' | 'ANTIGA' | 'INVÁLIDA' | 'CANCELADA';
@@ -101,11 +101,13 @@ interface RecursoDoc {
 interface OrcamentoParceiro {
   id: string;
   lote: string;
-  parceiro: string;
-  item: string;
-  valorUnitario: string;
-  valorTotal: string;
-  status: 'Cotação' | 'Validado' | 'Negociado';
+  parceiro: 'Oracle' | 'Microsoft' | 'IBM' | 'H2o';
+  dataRecebimento: string;
+  solicitante: string;
+  valorGlobal: string;
+  validadeProposta: string;
+  resumo: string;
+  versao: string;
   arquivo: string;
 }
 
@@ -150,8 +152,9 @@ const RegisterAssets: React.FC = () => {
   ]);
 
   const [orcamentos] = useState<OrcamentoParceiro[]>([
-    { id: 'o1', lote: '01', parceiro: 'Oracle Brasil', item: 'Exadata Cloud at Customer X11M', valorUnitario: 'R$ 15.000.000,00', valorTotal: 'R$ 15.000.000,00', status: 'Validado', arquivo: 'COTACAO_ORACLE_X11M.PDF' },
-    { id: 'o2', lote: '01', parceiro: 'Ingram Micro', item: 'Serviços de Implementação', valorUnitario: 'R$ 1.200.000,00', valorTotal: 'R$ 1.200.000,00', status: 'Negociado', arquivo: 'COTACAO_INGRAM_SERV.PDF' },
+    { id: 'o1', lote: '01', parceiro: 'Oracle', dataRecebimento: '10/11/2025', solicitante: 'Marcos Viana', valorGlobal: 'R$ 15.200.000,00', validadeProposta: '31/12/2025', resumo: 'Solução Exadata Cloud at Customer X11M completa com suporte Platinum.', versao: '2.1', arquivo: 'COTACAO_ORACLE_V2.PDF' },
+    { id: 'o2', lote: '01', parceiro: 'IBM', dataRecebimento: '12/11/2025', solicitante: 'Reinaldo Cavassena', valorGlobal: 'R$ 14.850.000,00', validadeProposta: '15/12/2025', resumo: 'Infraestrutura Power10 para hosting de alta densidade.', versao: '1.0', arquivo: 'IBM_PROPOSTA_TEC_COM.PDF' },
+    { id: 'o3', lote: '01', parceiro: 'Microsoft', dataRecebimento: '14/11/2025', solicitante: 'Giovanna Oliveira', valorGlobal: 'R$ 12.400.000,00', validadeProposta: '20/12/2025', resumo: 'Azure Stack Hub para nuvem privada conectada.', versao: 'v4', arquivo: 'MSFT_AZURE_AGU.PDF' },
   ]);
 
   const [propostas] = useState<PropostaComercial[]>([
@@ -383,14 +386,14 @@ const RegisterAssets: React.FC = () => {
     vigenciaContrato: "CONTRATO - 2.1. O PRAZO DE VIGÊNCIA DA CONTRATAÇÃO É DE 48 MESES CONTADOS DA ASSINATURA, PRORROGÁVEL SUCESSIVAMENTE POR ATÉ 10 ANOS.",
     vigenciaARP: "ARP - 1.4. A ATA DE REGISTRO DE PREÇOS TERÁ VIGÊNCIA DE 1 (UM) ANO, PRORROGÁVEL POR IGUAL PERÍODO.",
     valorGlobal: "R$ 19.257.923,54",
-    resumoDescritivo: "Contratação de Solução redundante de nuvem dedicada Oracle Exadata Cloud at Customer (ExaCC), na versão X11M ou superior, incluindo Oracle PaaS e IaaS Universal Credit por demanda e sem consumo mínimo, bem como os serviços necessários para ativação completa da solução, migração de dados e serviços técnicos especializados por demanda.",
+    resumoDescritivo: "Contratação de Solução redundante de nuvem dedicada Oracle Exadata Cloud at Customer (ExaCC), na versão X11M ou superior, incluindo Oracle PaaS e IaaS Universal Credit por demanda e sem consumo mínimo, bem como os serviços necessários para ativação completa da solution, migração de dados e serviços técnicos especializados por demanda.",
     permiteConsorcio: "4.21.2. Não se vislumbra necessidade de permissão da participação em concórcio, tendo em vista as características técnicas do objeto.",
     permiteSubcontratacao: "4.21. Subcontratação. 4.21.1. Não é admitida a subcontratação do objeto contratual.",
     vistoria: "4.16. Vistoria. 4.16.1. Não há necessidade de realização de avaliação prévia do local de execução dos serviços.",
     prazoRecurso: "13.3.2. O PRAZO PARA A INTENÇÃO DE RECURSO É DE 10 (DEZ) MINUTOS. 13.2. O PRAZO RECURSAL É DE 3 (TRÊS) DIAS ÚTEIS.",
     amostra: "4.22. DA VERIFICAÇÃO DE AMOSTRA DO OBJETO. 4.22.1. NÃO SE APLICA",
-    seguroGarantia: "11.2. SERÁ EXIGIDA A GARANTIA DA CONTRATAÇÃO DE QUE TRATAM OS ARTS. 96 E SEGUINTES DA LEI Nº 14.133, DE 2021, COM VALIDADE DURANTE A EXECUÇÃO DO CONTRA...",
-    modoDisputa: "7.10. O PROCEDIMENTO SEGUIRÁ DE ACORDO COM O MODO DE DISPUTA ABERTO.",
+    seguroGarantia: "11.2. SERÁ EXIGIDA A GARANTIA DA CONTRATAÇÃO DE QUE TRATAM OS ARTS. 96 E SEGUINTES DA LEI Nº 14.133, DE 2021, WITH VALIDADE DURANTE A EXECUÇÃO DO CONTRA...",
+    modoDisputa: "7.10. O PROCEDIMENTO SEGUIRÁ DE ACORDO WITH O MODO DE DISPUTA ABERTO.",
     disputaDetalhamento: "10 MIN NORMAIS WITH PRORROGAÇÃO DE 2 EM 2 MIN.",
     alertasCriticos: [
       { text: "PROPOSTA ADEQUADA:", detail: "Prazo de 180 minutos (3 horas) após negociação.", icon: <Clock size={12} className="text-rose-500" /> },
@@ -473,497 +476,7 @@ const RegisterAssets: React.FC = () => {
 
         <div className="p-10 space-y-10">
           
-          {/* ABA RESTAURADA: Dossiê do Edital */}
-          {(type === 'edital-referencia' || !type) && (
-            <div className="space-y-10">
-              
-              {/* SEÇÃO 1: INFOS GERAIS DA DISPUTA */}
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <div className="bg-slate-50 border border-slate-200 rounded-[28px] p-6 space-y-3">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Prazo Final Envio Proposta</span>
-                  <div className="flex items-center gap-3">
-                    <Calendar size={20} className="text-blue-600" />
-                    <span className="text-sm font-black text-slate-800 uppercase">{aguFullData.prazoEnvioProposta}</span>
-                  </div>
-                </div>
-                <div className="bg-slate-50 border border-slate-200 rounded-[28px] p-6 space-y-3">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Prazo Final Questionamento</span>
-                  <div className="flex items-center gap-3">
-                    <HelpCircle size={20} className="text-indigo-600" />
-                    <span className="text-sm font-black text-slate-800 uppercase">{aguFullData.prazoQuestionamento}</span>
-                  </div>
-                </div>
-                <div className="bg-slate-50 border border-slate-200 rounded-[28px] p-6 space-y-3">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Início da Disputa (Lances)</span>
-                  <div className="flex items-center gap-3">
-                    <Zap size={20} className="text-amber-500" />
-                    <span className="text-sm font-black text-slate-800 uppercase">{aguFullData.dataLances}</span>
-                  </div>
-                </div>
-                <div className="bg-slate-50 border border-slate-200 rounded-[28px] p-6 space-y-3">
-                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Local da Disputa</span>
-                  <a href={aguFullData.siteDisputa} target="_blank" className="flex items-center gap-2 text-blue-600 hover:underline">
-                    <ExternalLink size={18} />
-                    <span className="text-[11px] font-black uppercase truncate">Compras.gov.br</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* SEÇÃO 2: OBJETO - LARGURA TOTAL */}
-              <div className="bg-white border border-slate-200 rounded-[32px] p-8 space-y-4 shadow-sm">
-                <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                  <HardDrive size={18} className="text-blue-600" /> Objeto da contratação
-                </h3>
-                <p className="text-xs font-bold text-slate-600 leading-relaxed uppercase tracking-tight text-justify">
-                  {aguFullData.resumoDescritivo}
-                </p>
-              </div>
-
-              {/* SEÇÃO 3: REGRAS DE PARTICIPAÇÃO E CONDIÇÕES ADICIONAIS */}
-              <div className="space-y-6">
-                <div className="flex items-center justify-between px-2">
-                  <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                    <Gavel size={20} className="text-indigo-600" /> Regras, Amostras e Prazos do Processo
-                  </h3>
-                  <div className="h-px bg-slate-100 flex-1 ml-6"></div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {/* CARD: Alertas Críticos */}
-                  <div className="bg-rose-50/50 border border-rose-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-rose-600 text-white rounded-2xl shadow-lg shadow-rose-200">
-                        <BellRing size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-rose-300 uppercase tracking-widest">Atenção Máxima</span>
-                    </div>
-                    <div className="space-y-3">
-                      <h4 className="text-xs font-black text-rose-900 uppercase tracking-tight">Alertas Críticos</h4>
-                      <div className="space-y-2">
-                        {aguFullData.alertasCriticos.map((alerta, i) => (
-                          <div key={i} className="flex items-start gap-2">
-                            <span className="mt-0.5">{alerta.icon}</span>
-                            <p className="text-[10px] font-bold text-slate-600 uppercase leading-tight">
-                              <span className="text-slate-800 font-black">{alerta.text}</span> {alerta.detail}
-                            </p>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* CARD: Qualificação Técnica */}
-                  <div className="bg-blue-50/50 border border-blue-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-200">
-                        <UserCheck size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-blue-300 uppercase tracking-widest">Equipe</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-blue-900 uppercase tracking-tight">Qualificação Técnica</h4>
-                      <p className="text-[11px] font-bold text-slate-500 uppercase leading-snug text-justify">
-                        Certificações <span className="text-slate-900 font-black">Oracle OCP v21</span> obrigatórias. Min. 3 anos de exp. comprovada. <span className="text-blue-600 font-black">Carta de Solidariedade Exigida</span>. Reajuste anual pelo ICT.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Garantias Operacionais */}
-                  <div className="bg-emerald-50/50 border border-emerald-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-emerald-600 text-white rounded-2xl shadow-lg shadow-emerald-200">
-                        <Shield size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-emerald-300 uppercase tracking-widest">Execução</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-emerald-900 uppercase tracking-tight">Garantias Operacionais</h4>
-                      <p className="text-[11px] font-bold text-slate-500 uppercase leading-snug">
-                        Execução: <span className="text-slate-900 font-black">5% do global</span>. Entrega: <span className="text-emerald-600 font-black">60 dias úteis</span>. Manutenção pós-vigência: 90 dias.
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Permite Consórcio */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <Users2 size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Participação</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Permite Consórcio</h4>
-                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.permiteConsorcio}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Permite Subcontratação */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-amber-50 text-amber-600 rounded-2xl group-hover:bg-amber-500 group-hover:text-white transition-all">
-                        <GitBranch size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Operação</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Permite Subcontratação</h4>
-                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.permiteSubcontratacao}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Vistoria */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                        <Eye size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Técnico</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Vistoria</h4>
-                      <p className="text-xs font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.vistoria}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Prazo / Recurso */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
-                        <MessageSquare size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Jurídico</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Prazo / Recurso</h4>
-                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.prazoRecurso}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Amostra */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-purple-50 text-purple-600 rounded-2xl group-hover:bg-purple-600 group-hover:text-white transition-all">
-                        <PackageSearch size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Produto</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Amostra</h4>
-                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.amostra}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Seguro Garantia */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl group-hover:bg-rose-600 group-hover:text-white transition-all">
-                        <FileLock2 size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Financeiro</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Seguro Garantia</h4>
-                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.seguroGarantia}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Vigência Contratual */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-slate-100 text-slate-600 rounded-2xl group-hover:bg-slate-800 group-hover:text-white transition-all">
-                        <Timer size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Prazos</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Vigência Contratual</h4>
-                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.vigenciaContrato}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Modelo de Contratação */}
-                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
-                        <FileCheck size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Modelo</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Modelo de Contratação</h4>
-                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.vigenciaARP}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* CARD: Modo de Disputa */}
-                  <div className="bg-white border-2 border-dashed border-slate-200 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
-                    <div className="flex items-center justify-between">
-                      <div className="p-3 bg-rose-50 text-rose-500 rounded-2xl group-hover:bg-rose-500 group-hover:text-white transition-all">
-                        <Timer size={20} />
-                      </div>
-                      <span className="text-[9px] font-black text-rose-300 uppercase tracking-widest">Lances</span>
-                    </div>
-                    <div className="space-y-2">
-                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Modo de Disputa</h4>
-                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
-                        {aguFullData.modoDisputa} <span className="text-red-600 font-black">{aguFullData.disputaDetalhamento}</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* ABA RESTAURADA: Inteligência e Viabilidade */}
-          {type === 'inteligencia-viabilidade' && (
-            <div className="space-y-12 animate-in fade-in duration-500">
-               <div className="flex items-center justify-between">
-                 <h2 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                   <Fingerprint size={18} className="text-blue-600" /> Matriz de Inteligência Competitiva
-                 </h2>
-                 <div className="flex items-center gap-2">
-                   <span className="text-[10px] font-bold text-slate-400 uppercase">Índice de Certeza Global</span>
-                   <div className="bg-slate-100 w-32 h-2 rounded-full overflow-hidden">
-                     <div className="bg-blue-600 h-full w-[92%]"></div>
-                   </div>
-                   <span className="text-xs font-black text-blue-600">92%</span>
-                 </div>
-               </div>
-
-               <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-10 flex flex-wrap gap-10 items-center justify-between relative overflow-hidden shadow-sm">
-                 <div className="absolute top-0 right-0 w-64 h-64 bg-slate-200/50 rounded-full -mr-32 -mt-32"></div>
-                 <div className="relative z-10 flex items-center gap-8">
-                    <div className="w-24 h-24 bg-slate-800 rounded-[32px] flex items-center justify-center shadow-2xl shadow-slate-900/20">
-                       <PieChart size={40} className="text-white" />
-                    </div>
-                    <div className="space-y-2">
-                       <h4 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Veredito da Inteligência</h4>
-                       <p className="text-xs font-bold text-slate-500 uppercase leading-tight max-w-sm">O projeto apresenta alto grau de aderência estratégica com riscos financeiros controlados e margem de segurança operacional.</p>
-                    </div>
-                 </div>
-                 <div className="relative z-10 flex gap-4">
-                    <div className="bg-white border border-slate-200 p-6 rounded-[28px] text-center min-w-[140px] shadow-sm">
-                       <span className="text-[10px] font-black text-slate-400 uppercase block mb-1">Certeza Técnica</span>
-                       <span className="text-3xl font-black text-slate-900">92.4%</span>
-                    </div>
-                    <div className="bg-white border border-slate-200 p-6 rounded-[28px] text-center min-w-[140px] shadow-sm">
-                       <span className="text-[10px] font-black text-slate-400 uppercase block mb-1">Status Geral</span>
-                       <span className="text-3xl font-black text-emerald-600 uppercase tracking-widest">GO</span>
-                    </div>
-                 </div>
-               </div>
-
-               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {viabilityData.map((item, idx) => (
-                  <div key={idx} className="bg-white rounded-[32px] border border-slate-100 p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all group flex flex-col justify-between h-full relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 group-hover:bg-blue-50/50 transition-colors"></div>
-                    
-                    <div className="relative z-10 space-y-6">
-                      <div className="flex justify-between items-center">
-                        <div className={`p-4 ${item.iconBg} ${item.iconColor} rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm`}>
-                          {item.icon}
-                        </div>
-                        <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase border flex items-center gap-1.5 shadow-sm ${
-                          item.status === 'GO' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'
-                        }`}>
-                          {item.status === 'GO' ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
-                          {item.status}
-                        </div>
-                      </div>
-
-                      <div className="space-y-1">
-                        <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">{item.title}</h3>
-                        <div className="flex items-center gap-2">
-                           <span className={`text-[8px] font-black px-1.5 py-0.5 rounded uppercase ${
-                             item.impacto === 'Alto' ? 'bg-rose-100 text-rose-600' : 'bg-amber-100 text-amber-600'
-                           }`}>Impacto {item.impacto}</span>
-                           <span className="text-[9px] font-bold text-slate-400 uppercase">Analista: {item.responsavel.split(' ')[0]}</span>
-                        </div>
-                      </div>
-
-                      <div className="bg-slate-50/80 p-5 rounded-2xl border border-slate-100 group-hover:bg-white transition-colors min-h-[120px]">
-                        <p className="text-[11px] font-bold text-slate-600 leading-relaxed uppercase tracking-tight italic">
-                          "{item.justificativa}"
-                        </p>
-                      </div>
-
-                      <div className="space-y-3 pt-2">
-                         <div className="flex justify-between items-end">
-                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Nível de Confiança</span>
-                            <span className="text-10px font-black text-blue-600">{item.confianca}%</span>
-                         </div>
-                         <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                            <div 
-                              className={`h-full transition-all duration-1000 ${item.confianca > 90 ? 'bg-emerald-500' : 'bg-blue-500'}`} 
-                              style={{ width: `${item.confianca}%` }}
-                            ></div>
-                         </div>
-                      </div>
-                    </div>
-
-                    <div className="relative z-10 mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-[10px] font-black border border-blue-100">
-                          {item.responsavel.substring(0, 2).toUpperCase()}
-                        </div>
-                        <div>
-                          <p className="text-[10px] font-black text-slate-800 uppercase leading-none">Verificado</p>
-                          <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">{item.dataAnalise}</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-[10px] font-black text-slate-800 uppercase leading-none">{item.aprovadoPor.nome}</p>
-                        <p className="text-[9px] font-bold text-blue-600 uppercase mt-1">Validação Final</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* ABA RESTAURADA: Esclarecimentos */}
-          {type === 'esclarecimentos' && (
-            <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
-               <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
-                <div className="p-10 space-y-10">
-                  <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
-                    <div className="p-2.5 bg-cyan-600 text-white rounded-xl shadow-lg">
-                      <MessageSquare size={20} />
-                    </div>
-                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Novo Esclarecimento / Impugnação</h2>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Calendar size={14} className="text-cyan-500" /> Data*
-                      </label>
-                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <FileQuestion size={14} className="text-cyan-500" /> Tipo*
-                      </label>
-                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20 appearance-none">
-                        <option>Técnico</option>
-                        <option>Comercial</option>
-                        <option>Jurídico</option>
-                        <option>Processo</option>
-                        <option>Impugnação</option>
-                        <option>Outro</option>
-                      </select>
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Users2 size={14} className="text-cyan-500" /> Questionador*
-                      </label>
-                      <input type="text" placeholder="Nome da empresa ou interessado..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20" />
-                    </div>
-                    <div className="md:col-span-4 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <FileSearch size={14} className="text-cyan-500" /> Resumo do Documento*
-                      </label>
-                      <textarea rows={3} placeholder="Breve descrição do teor do esclarecimento e resposta do órgão..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20 resize-none"></textarea>
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <UserCog size={14} className="text-cyan-500" /> Responsável Cadastramento*
-                      </label>
-                      <input type="text" defaultValue="Reinaldo Cavassena" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none" />
-                    </div>
-                    <div className="md:col-span-2 space-y-2">
-                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
-                        <Upload size={14} className="text-cyan-500" /> Anexar Documento de Resposta*
-                      </label>
-                      <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3.5 rounded-[20px] text-[10px] font-black text-slate-400 uppercase hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
-                         <Plus size={14} /> Selecionar PDF do Esclarecimento
-                      </button>
-                    </div>
-                  </div>
-                  <div className="flex justify-end pt-6">
-                    <button className="bg-cyan-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-cyan-100 hover:scale-105 transition-all flex items-center gap-2">
-                      <Save size={18} /> Salvar Registro
-                    </button>
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                 <div className="flex items-center justify-between px-2">
-                    <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
-                       <ClipboardList size={18} className="text-cyan-600" /> Dossiê de Esclarecimentos e Impugnações
-                    </h3>
-                    <span className="text-[10px] font-black bg-slate-100 text-slate-400 px-3 py-1 rounded-full uppercase tracking-widest">3 Documentos Registrados</span>
-                 </div>
-                 <div className="grid grid-cols-1 gap-6">
-                    {[
-                      { type: 'Técnico', date: '22/10/2025', questioner: 'Softplan Planejamento', resumo: 'Questionamento sobre requisitos de interoperabilidade entre Oracle ExaCC e sistemas legados de tribunal superior.', file: 'ESCLARECIMENTO_01_TECNICO.PDF', responsible: 'Reinaldo C.' },
-                      { type: 'Comercial', date: '25/10/2025', questioner: 'WK3 Soluções', resumo: 'Dúvida sobre cronograma de faturamento e emissão de notas SIAFI.', file: 'ESCLARECIMENTO_02_COMERCIAL.PDF', responsible: 'Marcos V.' },
-                      { type: 'Processo', date: '28/10/2025', questioner: 'Consórcio Cloud Brasil', resumo: 'Pedido de prorrogação do prazo para envio de proposta técnica devido à complexidade da versão X11M.', file: 'ESCLARECIMENTO_03_PRAZO.PDF', responsible: 'Giovanna O.' },
-                    ].map((item, idx) => (
-                      <div key={idx} className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden hover:shadow-xl hover:border-cyan-200 transition-all group">
-                         <div className="p-8 flex flex-col md:flex-row gap-8">
-                            <div className="flex-1 space-y-4">
-                               <div className="flex items-center gap-4">
-                                  <span className="bg-cyan-50 text-cyan-600 border border-cyan-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">{item.type}</span>
-                                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5"><Calendar size={12} /> Recebido em {item.date}</span>
-                               </div>
-                               <div className="space-y-1">
-                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Questionador / Interessado</p>
-                                  <h4 className="text-sm font-black text-slate-800 uppercase">{item.questioner}</h4>
-                               </div>
-                               <div className="bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
-                                  <p className="text-xs font-bold text-slate-600 leading-relaxed uppercase tracking-tight italic">"{item.resumo}"</p>
-                               </div>
-                            </div>
-                            <div className="md:w-72 flex flex-col gap-4">
-                               <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex items-center gap-4 group-hover:border-cyan-100 transition-all">
-                                  <div className="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center group-hover:text-cyan-600"><FileText size={20} /></div>
-                                  <div className="flex-1 overflow-hidden">
-                                     <p className="text-[10px] font-black text-slate-800 uppercase truncate leading-none">{item.file}</p>
-                                     <p className="text-[8px] font-bold text-slate-400 uppercase mt-1">Versão v1.0 • 1.4 MB</p>
-                                  </div>
-                                  <button className="p-2 bg-slate-50 text-slate-400 hover:text-cyan-600 rounded-lg"><Download size={14} /></button>
-                               </div>
-                               <div className="flex items-center justify-between px-2 pt-2 border-t border-slate-50">
-                                  <div className="flex items-center gap-2">
-                                     <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center text-[8px] font-black text-slate-500">{item.responsible.substring(0, 2).toUpperCase()}</div>
-                                     <span className="text-[9px] font-bold text-slate-400 uppercase">{item.responsible}</span>
-                                  </div>
-                                  <div className="flex items-center gap-1">
-                                     <button className="p-2 text-slate-300 hover:text-blue-500 transition-colors"><Edit3 size={14} /></button>
-                                     <button className="p-2 text-slate-300 hover:text-rose-500 transition-colors"><Trash2 size={14} /></button>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
-                    ))}
-                 </div>
-              </div>
-            </div>
-          )}
-
-          {/* ABA: Orçamentação e Parceiros */}
+          {/* ABA: Orçamentação e Parceiros - AJUSTADA */}
           {type === 'orcamentacao-parceiros' && (
             <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
                <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
@@ -972,96 +485,126 @@ const RegisterAssets: React.FC = () => {
                     <div className="p-2.5 bg-amber-500 text-white rounded-xl shadow-lg">
                       <Building2 size={20} />
                     </div>
-                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Novo Orçamento / Parceiro</h2>
+                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Orçamento Recebido</h2>
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
                     <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Lote*</label>
-                      <input type="text" placeholder="Ex: 01" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
-                    </div>
-                    <div className="space-y-2 md:col-span-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Parceiro / Fabricante*</label>
-                      <input type="text" placeholder="Nome da empresa parceira..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Status*</label>
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1.5"><Building2 size={12}/> Parceiro*</label>
                       <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20 appearance-none">
-                        <option>Cotação</option>
-                        <option>Validado</option>
-                        <option>Negociado</option>
+                        <option>Oracle</option>
+                        <option>Microsoft</option>
+                        <option>IBM</option>
+                        <option>H2o</option>
                       </select>
                     </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1.5"><Calendar size={12}/> Data Recebimento*</label>
+                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1.5"><User size={12}/> Solicitante*</label>
+                      <input type="text" placeholder="Nome do solicitante..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1.5"><DollarSign size={12}/> Valor Global Recebido*</label>
+                      <input type="text" placeholder="R$ 0,00" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1.5"><Clock size={12}/> Validade da Proposta*</label>
+                      <input type="text" placeholder="Ex: 30 dias ou Data" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1.5"><GitBranch size={12}/> Versão*</label>
+                      <input type="text" placeholder="Ex: 1.0" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
+                    </div>
                     <div className="md:col-span-2 space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Item Orçado*</label>
-                      <input type="text" placeholder="Descrição do produto ou serviço..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
+                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1.5"><Upload size={12}/> Anexar Arquivo*</label>
+                       <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3 rounded-[20px] text-[10px] font-black text-slate-400 uppercase flex items-center justify-center gap-2 hover:bg-slate-100 transition-all">
+                          <Plus size={14} /> Selecionar PDF da Cotação
+                       </button>
                     </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Valor Unitário*</label>
-                      <input type="text" placeholder="R$ 0,00" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Valor Total*</label>
-                      <input type="text" placeholder="R$ 0,00" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20" />
+                    <div className="md:col-span-4 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-1.5"><FileSearch size={12}/> Resumo Produtos/Serviços*</label>
+                      <textarea rows={3} placeholder="Breve resumo do que está sendo orçado..." className="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-[24px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-amber-500/20 resize-none"></textarea>
                     </div>
                   </div>
                   <div className="flex justify-end pt-6">
                     <button className="bg-amber-500 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-amber-100 hover:scale-105 transition-all flex items-center gap-2">
-                      <Save size={18} /> Registrar Orçamento
+                      <Save size={18} /> Salvar Orçamento
                     </button>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-6">
-                 {['01'].map(loteNum => (
-                   <div key={loteNum} className="bg-white rounded-[32px] border border-slate-200 overflow-hidden shadow-sm">
-                      <div className="px-8 py-5 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
-                         <div className="flex items-center gap-3">
-                            <Layers className="text-amber-500" size={18} />
-                            <h3 className="text-sm font-black text-slate-700 uppercase tracking-widest">Lote {loteNum} - Gestão de Custos</h3>
-                         </div>
-                      </div>
-                      <div className="overflow-x-auto">
-                         <table className="w-full text-left">
-                            <thead>
-                               <tr className="border-b border-slate-50">
-                                  <th className="px-8 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Parceiro / Item</th>
-                                  <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Valor Unitário</th>
-                                  <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Valor Total</th>
-                                  <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Status</th>
-                                  <th className="px-8 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
-                               </tr>
-                            </thead>
-                            <tbody className="divide-y divide-slate-50">
-                               {orcamentos.map(item => (
-                                 <tr key={item.id} className="hover:bg-slate-50 transition-all group">
-                                    <td className="px-8 py-5">
-                                       <div className="flex flex-col">
-                                          <span className="text-xs font-black text-slate-800 uppercase">{item.parceiro}</span>
-                                          <span className="text-[9px] font-bold text-slate-400 uppercase">{item.item}</span>
-                                       </div>
-                                    </td>
-                                    <td className="px-6 py-5 text-center text-[11px] font-bold text-slate-600">{item.valorUnitario}</td>
-                                    <td className="px-6 py-5 text-center text-[11px] font-black text-slate-800">{item.valorTotal}</td>
-                                    <td className="px-6 py-5 text-center">
-                                       <span className={`text-[8px] font-black px-2 py-0.5 rounded-full uppercase border shadow-sm ${
-                                         item.status === 'Validado' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-blue-50 text-blue-600 border-blue-100'
-                                       }`}>{item.status}</span>
-                                    </td>
-                                    <td className="px-8 py-5 text-right">
-                                       <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                                          <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600"><Download size={14} /></button>
-                                          <button className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-rose-500"><Trash2 size={14} /></button>
-                                       </div>
-                                    </td>
-                                 </tr>
-                               ))}
-                            </tbody>
-                         </table>
-                      </div>
-                   </div>
-                 ))}
+              {/* LISTAGEM POR PARCEIROS AJUSTADA */}
+              <div className="space-y-10">
+                 {['Oracle', 'Microsoft', 'IBM', 'H2o'].map(partnerName => {
+                   const partnerItems = orcamentos.filter(o => o.parceiro === partnerName);
+                   if (partnerItems.length === 0) return null;
+
+                   return (
+                     <div key={partnerName} className="space-y-6">
+                        <div className="flex items-center gap-4 px-2">
+                          <div className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-lg">
+                             <Building2 size={24} />
+                          </div>
+                          <div>
+                            <h3 className="text-2xl font-black text-slate-800 uppercase tracking-tighter leading-none">{partnerName}</h3>
+                            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-1">Cotações Recebidas</p>
+                          </div>
+                          <div className="h-px bg-slate-200 flex-1 ml-4"></div>
+                        </div>
+
+                        <div className="bg-white rounded-[32px] border border-slate-200 overflow-hidden shadow-sm">
+                           <div className="overflow-x-auto">
+                              <table className="w-full text-left">
+                                 <thead>
+                                    <tr className="bg-slate-50/50 border-b border-slate-100">
+                                       <th className="px-8 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest">Documento / Resumo</th>
+                                       <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Versão</th>
+                                       <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Recebimento</th>
+                                       <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Valor Global</th>
+                                       <th className="px-6 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-center">Validade</th>
+                                       <th className="px-8 py-4 text-[9px] font-black text-slate-400 uppercase tracking-widest text-right">Ações</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody className="divide-y divide-slate-50">
+                                    {partnerItems.map(item => (
+                                      <tr key={item.id} className="hover:bg-slate-50 transition-all group">
+                                         <td className="px-8 py-5">
+                                            <div className="flex items-center gap-4">
+                                               <div className="w-10 h-10 bg-slate-50 rounded-xl flex items-center justify-center text-amber-500 shadow-sm border border-slate-100">
+                                                  <FileText size={18} />
+                                               </div>
+                                               <div className="flex flex-col">
+                                                  <span className="text-xs font-black text-slate-800 uppercase tracking-tight">{item.arquivo}</span>
+                                                  <span className="text-[10px] font-bold text-slate-400 uppercase mt-0.5 line-clamp-1 max-w-[300px]">{item.resumo}</span>
+                                               </div>
+                                            </div>
+                                         </td>
+                                         <td className="px-6 py-5 text-center text-[10px] font-black text-slate-700">v{item.versao}</td>
+                                         <td className="px-6 py-5 text-center text-[10px] font-bold text-slate-500">{item.dataRecebimento}</td>
+                                         <td className="px-6 py-5 text-center text-[11px] font-black text-emerald-600">{item.valorGlobal}</td>
+                                         <td className="px-6 py-5 text-center">
+                                            <span className="text-[10px] font-black bg-amber-50 text-amber-600 border border-amber-100 px-3 py-1 rounded-full uppercase shadow-sm">{item.validadeProposta}</span>
+                                         </td>
+                                         <td className="px-8 py-5 text-right">
+                                            <div className="flex justify-end gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                                               <button title="Visualizar" className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-blue-600 hover:border-blue-200 transition-all shadow-sm"><Eye size={14} /></button>
+                                               <button title="Baixar" className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-indigo-600 hover:border-indigo-200 transition-all shadow-sm"><Download size={14} /></button>
+                                               <button title="Excluir" className="p-2 bg-white border border-slate-200 rounded-lg text-slate-400 hover:text-rose-500 hover:border-rose-200 transition-all shadow-sm"><Trash2 size={14} /></button>
+                                            </div>
+                                         </td>
+                                      </tr>
+                                    ))}
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                   );
+                 })}
               </div>
             </div>
           )}
@@ -1238,6 +781,496 @@ const RegisterAssets: React.FC = () => {
                           ))}
                        </tbody>
                     </table>
+                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* ABA: Dossiê do Edital */}
+          {(type === 'edital-referencia' || !type) && (
+            <div className="space-y-10">
+              
+              {/* SEÇÃO 1: INFOS GERAIS DA DISPUTA */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div className="bg-slate-50 border border-slate-200 rounded-[28px] p-6 space-y-3">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Prazo Final Envio Proposta</span>
+                  <div className="flex items-center gap-3">
+                    <Calendar size={20} className="text-blue-600" />
+                    <span className="text-sm font-black text-slate-800 uppercase">{aguFullData.prazoEnvioProposta}</span>
+                  </div>
+                </div>
+                <div className="bg-slate-50 border border-slate-200 rounded-[28px] p-6 space-y-3">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Prazo Final Questionamento</span>
+                  <div className="flex items-center gap-3">
+                    <HelpCircle size={20} className="text-indigo-600" />
+                    <span className="text-sm font-black text-slate-800 uppercase">{aguFullData.prazoQuestionamento}</span>
+                  </div>
+                </div>
+                <div className="bg-slate-50 border border-slate-200 rounded-[28px] p-6 space-y-3">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Início da Disputa (Lances)</span>
+                  <div className="flex items-center gap-3">
+                    <Zap size={20} className="text-amber-500" />
+                    <span className="text-sm font-black text-slate-800 uppercase">{aguFullData.dataLances}</span>
+                  </div>
+                </div>
+                <div className="bg-slate-50 border border-slate-200 rounded-[28px] p-6 space-y-3">
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest block">Local da Disputa</span>
+                  <a href={aguFullData.siteDisputa} target="_blank" className="flex items-center gap-2 text-blue-600 hover:underline">
+                    <ExternalLink size={18} />
+                    <span className="text-[11px] font-black uppercase truncate">Compras.gov.br</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* SEÇÃO 2: OBJETO - LARGURA TOTAL */}
+              <div className="bg-white border border-slate-200 rounded-[32px] p-8 space-y-4 shadow-sm">
+                <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                  <HardDrive size={18} className="text-blue-600" /> Objeto da contratação
+                </h3>
+                <p className="text-xs font-bold text-slate-600 leading-relaxed uppercase tracking-tight text-justify">
+                  {aguFullData.resumoDescritivo}
+                </p>
+              </div>
+
+              {/* SEÇÃO 3: REGRAS DE PARTICIPAÇÃO E CONDIÇÕES ADICIONAIS */}
+              <div className="space-y-6">
+                <div className="flex items-center justify-between px-2">
+                  <h3 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                    <Gavel size={20} className="text-indigo-600" /> Regras, Amostras e Prazos do Processo
+                  </h3>
+                  <div className="h-px bg-slate-100 flex-1 ml-6"></div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {/* CARD: Alertas Críticos */}
+                  <div className="bg-rose-50/50 border border-rose-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                      <div className="p-3 bg-rose-600 text-white rounded-2xl shadow-lg shadow-rose-200">
+                        <BellRing size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-rose-300 uppercase tracking-widest">Atenção Máxima</span>
+                    </div>
+                    <div className="space-y-3">
+                      <h4 className="text-xs font-black text-rose-900 uppercase tracking-tight">Alertas Críticos</h4>
+                      <div className="space-y-2">
+                        {aguFullData.alertasCriticos.map((alerta, i) => (
+                          <div key={i} className="flex items-start gap-2">
+                            <span className="mt-0.5">{alerta.icon}</span>
+                            <p className="text-[10px] font-bold text-slate-600 uppercase leading-tight">
+                              <span className="text-slate-800 font-black">{alerta.text}</span> {alerta.detail}
+                            </p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* CARD: Qualificação Técnica */}
+                  <div className="bg-blue-50/50 border border-blue-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                      <div className="p-3 bg-blue-600 text-white rounded-2xl shadow-lg shadow-blue-200">
+                        <UserCheck size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-blue-300 uppercase tracking-widest">Equipe</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-blue-900 uppercase tracking-tight">Qualificação Técnica</h4>
+                      <p className="text-[11px] font-bold text-slate-500 uppercase leading-snug text-justify">
+                        Certificações <span className="text-slate-900 font-black">Oracle OCP v21</span> obrigatórias. Min. 3 anos de exp. comprovada. <span className="text-blue-600 font-black">Carta de Solidariedade Exigida</span>. Reajuste anual pelo ICT.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Garantias Operacionais */}
+                  <div className="bg-emerald-50/50 border border-emerald-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center justify-between">
+                      <div className="p-3 bg-emerald-600 text-white rounded-2xl shadow-lg shadow-emerald-200">
+                        <Shield size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-emerald-300 uppercase tracking-widest">Execução</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-emerald-900 uppercase tracking-tight">Garantias Operacionais</h4>
+                      <p className="text-[11px] font-bold text-slate-500 uppercase leading-snug">
+                        Execução: <span className="text-slate-900 font-black">5% do global</span>. Entrega: <span className="text-emerald-600 font-black">60 dias úteis</span>. Manutenção pós-vigência: 90 dias.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Permite Consórcio */}
+                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <Users2 size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Participação</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Permite Consórcio</h4>
+                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.permiteConsorcio}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Permite Subcontratação */}
+                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-amber-50 text-amber-600 rounded-2xl group-hover:bg-amber-500 group-hover:text-white transition-all">
+                        <GitBranch size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Operação</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Permite Subcontratação</h4>
+                      <p className="text-[11px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.permiteSubcontratacao}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Vistoria */}
+                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                        <Eye size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Técnico</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Vistoria</h4>
+                      <p className="text-xs font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.vistoria}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Prazo / Recurso */}
+                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all">
+                        <MessageSquare size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Jurídico</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Prazo / Recurso</h4>
+                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.prazoRecurso}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Amostra */}
+                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-purple-50 text-purple-600 rounded-2xl group-hover:bg-purple-600 group-hover:text-white transition-all">
+                        <PackageSearch size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Produto</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Amostra</h4>
+                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.amostra}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Seguro Garantia */}
+                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-rose-50 text-rose-600 rounded-2xl group-hover:bg-rose-600 group-hover:text-white transition-all">
+                        <FileLock2 size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Financeiro</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Seguro Garantia</h4>
+                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.seguroGarantia}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Vigência Contratual */}
+                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-slate-100 text-slate-600 rounded-2xl group-hover:bg-slate-800 group-hover:text-white transition-all">
+                        <Timer size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Prazos</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Vigência Contratual</h4>
+                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.vigenciaContrato}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Modelo de Contratação */}
+                  <div className="bg-white border border-slate-100 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-emerald-50 text-emerald-600 rounded-2xl group-hover:bg-emerald-600 group-hover:text-white transition-all">
+                        <FileCheck size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest">Modelo</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Modelo de Contratação</h4>
+                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.vigenciaARP}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* CARD: Modo de Disputa */}
+                  <div className="bg-white border-2 border-dashed border-slate-200 rounded-[32px] p-7 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all group flex flex-col gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="p-3 bg-rose-50 text-rose-500 rounded-2xl group-hover:bg-rose-500 group-hover:text-white transition-all">
+                        <Timer size={20} />
+                      </div>
+                      <span className="text-[9px] font-black text-rose-300 uppercase tracking-widest">Lances</span>
+                    </div>
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black text-slate-800 uppercase tracking-tight">Modo de Disputa</h4>
+                      <p className="text-[10px] font-bold text-slate-500 leading-relaxed uppercase tracking-tight text-justify">
+                        {aguFullData.modoDisputa} <span className="text-red-600 font-black">{aguFullData.disputaDetalhamento}</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* ABA: Inteligência e Viabilidade */}
+          {type === 'inteligencia-viabilidade' && (
+            <div className="space-y-12 animate-in fade-in duration-500">
+               <div className="flex items-center justify-between">
+                 <h2 className="text-sm font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                   <Fingerprint size={18} className="text-blue-600" /> Matriz de Inteligência Competitiva
+                 </h2>
+                 <div className="flex items-center gap-2">
+                   <span className="text-[10px] font-bold text-slate-400 uppercase">Índice de Certeza Global</span>
+                   <div className="bg-slate-100 w-32 h-2 rounded-full overflow-hidden">
+                     <div className="bg-blue-600 h-full w-[92%]"></div>
+                   </div>
+                   <span className="text-xs font-black text-blue-600">92%</span>
+                 </div>
+               </div>
+
+               <div className="bg-slate-50 border border-slate-200 rounded-[40px] p-10 flex flex-wrap gap-10 items-center justify-between relative overflow-hidden shadow-sm">
+                 <div className="absolute top-0 right-0 w-64 h-64 bg-slate-200/50 rounded-full -mr-32 -mt-32"></div>
+                 <div className="relative z-10 flex items-center gap-8">
+                    <div className="w-24 h-24 bg-slate-800 rounded-[32px] flex items-center justify-center shadow-2xl shadow-slate-900/20">
+                       <PieChart size={40} className="text-white" />
+                    </div>
+                    <div className="space-y-2">
+                       <h4 className="text-2xl font-black text-slate-900 uppercase tracking-tighter">Veredito da Inteligência</h4>
+                       <p className="text-xs font-bold text-slate-500 uppercase leading-tight max-w-sm">O projeto apresenta alto grau de aderência estratégica com riscos financeiros controlados e margem de segurança operacional.</p>
+                    </div>
+                 </div>
+                 <div className="relative z-10 flex gap-4">
+                    <div className="bg-white border border-slate-200 p-6 rounded-[28px] text-center min-w-[140px] shadow-sm">
+                       <span className="text-[10px] font-black text-slate-400 uppercase block mb-1">Certeza Técnica</span>
+                       <span className="text-3xl font-black text-slate-900">92.4%</span>
+                    </div>
+                    <div className="bg-white border border-slate-200 p-6 rounded-[28px] text-center min-w-[140px] shadow-sm">
+                       <span className="text-[10px] font-black text-slate-400 uppercase block mb-1">Status Geral</span>
+                       <span className="text-3xl font-black text-emerald-600 uppercase tracking-widest">GO</span>
+                    </div>
+                 </div>
+               </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {viabilityData.map((item, idx) => (
+                  <div key={idx} className="bg-white rounded-[32px] border border-slate-100 p-8 shadow-sm hover:shadow-2xl hover:border-blue-400 transition-all group flex flex-col justify-between h-full relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16 group-hover:bg-blue-50/50 transition-colors"></div>
+                    
+                    <div className="relative z-10 space-y-6">
+                      <div className="flex justify-between items-center">
+                        <div className={`p-4 ${item.iconBg} ${item.iconColor} rounded-2xl group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm`}>
+                          {item.icon}
+                        </div>
+                        <div className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase border flex items-center gap-1.5 shadow-sm ${
+                          item.status === 'GO' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100'
+                        }`}>
+                          {item.status === 'GO' ? <CheckCircle2 size={12} /> : <XCircle size={12} />}
+                          {item.status}
+                        </div>
+                      </div>
+
+                      <div className="space-y-1">
+                        <h3 className="text-lg font-black text-slate-900 uppercase tracking-tight">{item.title}</h3>
+                        <div className="flex items-center gap-2">
+                           <span className={`text-[8px] font-black px-1.5 py-0.5 rounded uppercase ${
+                             item.impacto === 'Alto' ? 'bg-rose-100 text-rose-600' : 'bg-amber-100 text-amber-600'
+                           }`}>Impacto {item.impacto}</span>
+                           <span className="text-[9px] font-bold text-slate-400 uppercase">Analista: {item.responsavel.split(' ')[0]}</span>
+                        </div>
+                      </div>
+
+                      <div className="bg-slate-50/80 p-5 rounded-2xl border border-slate-100 group-hover:bg-white transition-colors min-h-[120px]">
+                        <p className="text-[11px] font-bold text-slate-600 leading-relaxed uppercase tracking-tight italic">
+                          "{item.justificativa}"
+                        </p>
+                      </div>
+
+                      <div className="space-y-3 pt-2">
+                         <div className="flex justify-between items-end">
+                            <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Nível de Confiança</span>
+                            <span className="text-10px font-black text-blue-600">{item.confianca}%</span>
+                         </div>
+                         <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div 
+                              className={`h-full transition-all duration-1000 ${item.confianca > 90 ? 'bg-emerald-500' : 'bg-blue-500'}`} 
+                              style={{ width: `${item.confianca}%` }}
+                            ></div>
+                         </div>
+                      </div>
+                    </div>
+
+                    <div className="relative z-10 mt-8 pt-6 border-t border-slate-100 flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center text-[10px] font-black border border-blue-100">
+                          {item.responsavel.substring(0, 2).toUpperCase()}
+                        </div>
+                        <div>
+                          <p className="text-[10px] font-black text-slate-800 uppercase leading-none">Verificado</p>
+                          <p className="text-[9px] font-bold text-slate-400 uppercase mt-1">{item.dataAnalise}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-[10px] font-black text-slate-800 uppercase leading-none">{item.aprovadoPor.nome}</p>
+                        <p className="text-[9px] font-bold text-blue-600 uppercase mt-1">Validação Final</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ABA: Esclarecimentos */}
+          {type === 'esclarecimentos' && (
+            <div className="space-y-12 animate-in fade-in slide-in-from-top-4 duration-500">
+               <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden">
+                <div className="p-10 space-y-10">
+                  <div className="flex items-center gap-3 border-b border-slate-100 pb-6">
+                    <div className="p-2.5 bg-cyan-600 text-white rounded-xl shadow-lg">
+                      <MessageSquare size={20} />
+                    </div>
+                    <h2 className="text-xl font-black text-slate-800 uppercase tracking-tighter">Cadastrar Novo Esclarecimento / Impugnação</h2>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-x-8 gap-y-8">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Calendar size={14} className="text-cyan-500" /> Data*
+                      </label>
+                      <input type="date" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20" />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <FileQuestion size={14} className="text-cyan-500" /> Tipo*
+                      </label>
+                      <select className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20 appearance-none">
+                        <option>Técnico</option>
+                        <option>Comercial</option>
+                        <option>Jurídico</option>
+                        <option>Processo</option>
+                        <option>Impugnação</option>
+                        <option>Outro</option>
+                      </select>
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Users2 size={14} className="text-cyan-500" /> Questionador*
+                      </label>
+                      <input type="text" placeholder="Nome da empresa ou interessado..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20" />
+                    </div>
+                    <div className="md:col-span-4 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <FileSearch size={14} className="text-cyan-500" /> Resumo do Documento*
+                      </label>
+                      <textarea rows={3} placeholder="Breve descrição do teor do esclarecimento e resposta do órgão..." className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none focus:ring-2 focus:ring-cyan-500/20 resize-none"></textarea>
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                      <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <UserCog size={14} className="text-cyan-500" /> Responsável Cadastramento*
+                      </label>
+                      <input type="text" defaultValue="Reinaldo Cavassena" className="w-full px-5 py-3.5 bg-slate-50 border border-slate-200 rounded-[20px] text-sm font-bold text-slate-700 outline-none" />
+                    </div>
+                    <div className="md:col-span-2 space-y-2">
+                       <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-1.5">
+                        <Upload size={14} className="text-cyan-500" /> Anexar Documento de Resposta*
+                      </label>
+                      <button className="w-full bg-slate-50 border-2 border-dashed border-slate-200 py-3.5 rounded-[20px] text-[10px] font-black text-slate-400 uppercase hover:bg-slate-100 transition-all flex items-center justify-center gap-2">
+                         <Plus size={14} /> Selecionar PDF do Esclarecimento
+                      </button>
+                    </div>
+                  </div>
+                  <div className="flex justify-end pt-6">
+                    <button className="bg-cyan-600 text-white px-12 py-4 rounded-[20px] text-xs font-black uppercase tracking-widest shadow-xl shadow-cyan-100 hover:scale-105 transition-all flex items-center gap-2">
+                      <Save size={18} /> Salvar Registro
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                 <div className="flex items-center justify-between px-2">
+                    <h3 className="text-xs font-black text-slate-900 uppercase tracking-widest flex items-center gap-2">
+                       <ClipboardList size={18} className="text-cyan-600" /> Dossiê de Esclarecimentos e Impugnações
+                    </h3>
+                    <span className="text-[10px] font-black bg-slate-100 text-slate-400 px-3 py-1 rounded-full uppercase tracking-widest">3 Documentos Registrados</span>
+                 </div>
+                 <div className="grid grid-cols-1 gap-6">
+                    {[
+                      { type: 'Técnico', date: '22/10/2025', questioner: 'Softplan Planejamento', resumo: 'Questionamento sobre requisitos de interoperabilidade entre Oracle ExaCC e sistemas legados de tribunal superior.', file: 'ESCLARECIMENTO_01_TECNICO.PDF', responsible: 'Reinaldo C.' },
+                      { type: 'Comercial', date: '25/10/2025', questioner: 'WK3 Soluções', resumo: 'Dúvida sobre cronograma de faturamento e emissão de notas SIAFI.', file: 'ESCLARECIMENTO_02_COMERCIAL.PDF', responsible: 'Marcos V.' },
+                      { type: 'Processo', date: '28/10/2025', questioner: 'Consórcio Cloud Brasil', resumo: 'Pedido de prorrogação do prazo para envio de proposta técnica devido à complexidade da versão X11M.', file: 'ESCLARECIMENTO_03_PRAZO.PDF', responsible: 'Giovanna O.' },
+                    ].map((item, idx) => (
+                      <div key={idx} className="bg-white rounded-[32px] border border-slate-200 shadow-sm overflow-hidden hover:shadow-xl hover:border-cyan-200 transition-all group">
+                         <div className="p-8 flex flex-col md:flex-row gap-8">
+                            <div className="flex-1 space-y-4">
+                               <div className="flex items-center gap-4">
+                                  <span className="bg-cyan-50 text-cyan-600 border border-cyan-100 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">{item.type}</span>
+                                  <span className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5"><Calendar size={12} /> Recebido em {item.date}</span>
+                               </div>
+                               <div className="space-y-1">
+                                  <p className="text-[9px] font-black text-slate-400 uppercase tracking-widest">Questionador / Interessado</p>
+                                  <h4 className="text-sm font-black text-slate-800 uppercase">{item.questioner}</h4>
+                               </div>
+                               <div className="bg-slate-50/50 p-4 rounded-2xl border border-slate-100">
+                                  <p className="text-xs font-bold text-slate-600 leading-relaxed uppercase tracking-tight italic">"{item.resumo}"</p>
+                               </div>
+                            </div>
+                            <div className="md:w-72 flex flex-col gap-4">
+                               <div className="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex items-center gap-4 group-hover:border-cyan-100 transition-all">
+                                  <div className="w-10 h-10 bg-slate-50 text-slate-400 rounded-xl flex items-center justify-center group-hover:text-cyan-600"><FileText size={20} /></div>
+                                  <div className="flex-1 overflow-hidden">
+                                     <p className="text-[10px] font-black text-slate-800 uppercase truncate leading-none">{item.file}</p>
+                                     <p className="text-[8px] font-bold text-slate-400 uppercase mt-1">Versão v1.0 • 1.4 MB</p>
+                                  </div>
+                                  <button className="p-2 bg-slate-50 text-slate-400 hover:text-cyan-600 rounded-lg"><Download size={14} /></button>
+                               </div>
+                               <div className="flex items-center justify-between px-2 pt-2 border-t border-slate-50">
+                                  <div className="flex items-center gap-2">
+                                     <div className="w-6 h-6 bg-slate-100 rounded-full flex items-center justify-center text-[8px] font-black text-slate-500">{item.responsible.substring(0, 2).toUpperCase()}</div>
+                                     <span className="text-[9px] font-bold text-slate-400 uppercase">{item.responsible}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                     <button className="p-2 text-slate-300 hover:text-blue-500 transition-colors"><Edit3 size={14} /></button>
+                                     <button className="p-2 text-slate-300 hover:text-rose-500 transition-colors"><Trash2 size={14} /></button>
+                                  </div>
+                               </div>
+                            </div>
+                         </div>
+                      </div>
+                    ))}
                  </div>
               </div>
             </div>
